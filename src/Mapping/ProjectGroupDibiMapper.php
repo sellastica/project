@@ -1,5 +1,5 @@
 <?php
-namespace Core\Infrastructure\Mapping\Dibi\Project;
+namespace Sellastica\Project\Mapping;
 
 use Sellastica\Entity\Mapping\DibiMapper;
 use Sellastica\Project\Entity\ProjectGroup;

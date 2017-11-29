@@ -1,5 +1,5 @@
 <?php
-namespace Core\Infrastructure\Mapping\Project;
+namespace Sellastica\Project\Mapping;
 
 use Sellastica\Entity\Mapping\RepositoryProxy;
 

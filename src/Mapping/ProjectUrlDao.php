@@ -1,7 +1,6 @@
 <?php
-namespace Core\Infrastructure\Mapping\Project;
+namespace Sellastica\Project\Mapping;
 
-use Core\Infrastructure\Mapping\Dibi\Project\ProjectUrlDibiMapper;
 use Sellastica\Entity\Entity\EntityCollection;
 use Sellastica\Entity\IBuilder;
 use Sellastica\Entity\Mapping\Dao;

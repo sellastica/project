@@ -1,7 +1,6 @@
 <?php
-namespace Core\Infrastructure\Mapping\Project;
+namespace Sellastica\Project\Mapping;
 
-use Core\Infrastructure\Mapping\Dibi\Project\ProjectGroupDibiMapper;
 use Sellastica\Entity\Entity\EntityCollection;
 use Sellastica\Entity\IBuilder;
 use Sellastica\Entity\Mapping\Dao;
@@ -10,7 +9,7 @@ use Sellastica\Project\Entity\ProjectGroupCollection;
 
 /**
  * @see \Sellastica\Project\Entity\ProjectGroup
- * @property ProjectGroupDibiMapper $mapper
+ * @property \Sellastica\Project\Mapping\ProjectGroupDibiMapper $mapper
  */
 class ProjectGroupDao extends Dao
 {
