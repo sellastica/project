@@ -23,7 +23,7 @@ class ProjectDibiMapper extends DibiMapper
 	public function findByHost(string $host)
 	{
 		return $this->getResourceWithIds()
-			->leftJoin('crm.project_url')
+			->leftJoin($this->environment->getCrmDatabaseName() . '.project_url')
 			->on('project_url.projectId = %n.id', $this->getTableName())
 			->where('project_url.host = %s', $host)
 			->or('%n.host = %s', $this->getTableName(), $host)
