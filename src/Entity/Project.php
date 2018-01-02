@@ -8,6 +8,7 @@ use Core\Domain\Model\Store\StoreCollection;
 use Core\Presentation\Web\ShopProxy;
 use Core\Presentation\Web\ShopProxyFactory;
 use Nette\Http\Url;
+use Project\Model\InternalProjectSpecifics;
 use Sellastica\Api\Model\IPayloadable;
 use Sellastica\Entity\Configuration;
 use Sellastica\Entity\Entity\AbstractEntity;
@@ -42,6 +43,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 
 	/** @var string @required */
 	private $localizationCode;
+	/** @var string @required */
+	private $currencyCode;
 	/** @var Email @required */
 	private $email;
 	/** @var string|null @optional */
@@ -76,6 +79,9 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	/** @var ProjectUrlCollection|ProjectUrl[] */
 	private $urls;
 
+	/** @var InternalProjectSpecifics */
+	private $internalProjectSpecifics;
+
 
 	/**
 	 * @param ProjectBuilder $builder
@@ -86,13 +92,24 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @param InternalProjectSpecifics $internalProjectSpecifics
 	 * @param ShopProxyFactory $proxyFactory
 	 */
 	public function doInitialize(
+		InternalProjectSpecifics $internalProjectSpecifics,
 		ShopProxyFactory $proxyFactory
 	)
 	{
+		$this->internalProjectSpecifics = $internalProjectSpecifics;
 		$this->proxyFactory = $proxyFactory;
+	}
+
+	/**
+	 * @return InternalProjectSpecifics
+	 */
+	public function getInternalProjectSpecifics(): InternalProjectSpecifics
+	{
+		return $this->internalProjectSpecifics;
 	}
 
 	/**
@@ -141,6 +158,14 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public function getLocalization(): Localization
 	{
 		return Localization::from($this->localizationCode);
+	}
+
+	/**
+	 * @return \Sellastica\Localization\Model\Currency
+	 */
+	public function getCurrency(): \Sellastica\Localization\Model\Currency
+	{
+		return \Sellastica\Localization\Model\Currency::from($this->currencyCode);
 	}
 
 	/**
@@ -359,34 +384,38 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	 */
 	public function toArray(): array
 	{
-		return [
-			'id' => $this->id,
-			'customerNumber' => $this->customerNumber,
-			'title' => $this->title,
-			'localizationCode' => $this->localizationCode,
-			'note' => $this->note,
-			'email' => $this->getEmail(),
-			'phone' => $this->phone,
-			'themeId' => $this->themeId,
-			'backend' => $this->backend,
-			'b2b' => $this->b2b,
-			'b2c' => $this->b2c,
-		];
+		return array_merge(
+			$this->parentToArray(),
+			[
+				'id' => $this->id,
+				'customerNumber' => $this->customerNumber,
+				'title' => $this->title,
+				'localizationCode' => $this->localizationCode,
+				'note' => $this->note,
+				'email' => $this->getEmail(),
+				'phone' => $this->phone,
+				'themeId' => $this->themeId,
+				'backend' => $this->backend,
+				'b2b' => $this->b2b,
+				'b2c' => $this->b2c,
+			],
+			$this->internalProjectSpecifics->toArray()
+		);
 	}
 
 	/**
-	 * @return ShopProxy
+	 * @return \Sellastica\Twig\Model\ProxyObject
 	 */
-	public function toProxy(): ShopProxy
+	public function toProxy()
 	{
-		return $this->proxyFactory->create($this);
+		return $this->internalProjectSpecifics->toProxy();
 	}
 
 	/**
-	 * @return \Api\Payload\Project
+	 * @return \Sellastica\Api\Model\PayloadObject
 	 */
 	public function toPayloadObject()
 	{
-		return new \Api\Payload\Project($this);
+		return $this->internalProjectSpecifics->toPayloadObject();
 	}
 }

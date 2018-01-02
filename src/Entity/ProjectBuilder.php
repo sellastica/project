@@ -24,6 +24,8 @@ class ProjectBuilder implements IBuilder
 	private $host;
 	/** @var string */
 	private $localizationCode;
+	/** @var string */
+	private $currencyCode;
 	/** @var Email */
 	private $email;
 	/** @var string|null */
@@ -48,6 +50,7 @@ class ProjectBuilder implements IBuilder
 	 * @param bool $www
 	 * @param string $host
 	 * @param string $localizationCode
+	 * @param string $currencyCode
 	 * @param Email $email
 	 */
 	public function __construct(
@@ -57,6 +60,7 @@ class ProjectBuilder implements IBuilder
 		bool $www,
 		string $host,
 		string $localizationCode,
+		string $currencyCode,
 		Email $email
 	)
 	{
@@ -66,6 +70,7 @@ class ProjectBuilder implements IBuilder
 		$this->www = $www;
 		$this->host = $host;
 		$this->localizationCode = $localizationCode;
+		$this->currencyCode = $currencyCode;
 		$this->email = $email;
 	}
 
@@ -115,6 +120,14 @@ class ProjectBuilder implements IBuilder
 	public function getLocalizationCode(): string
 	{
 		return $this->localizationCode;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCurrencyCode(): string
+	{
+		return $this->currencyCode;
 	}
 
 	/**
@@ -274,6 +287,7 @@ class ProjectBuilder implements IBuilder
 	 * @param bool $www
 	 * @param string $host
 	 * @param string $localizationCode
+	 * @param string $currencyCode
 	 * @param Email $email
 	 * @return self
 	 */
@@ -284,9 +298,10 @@ class ProjectBuilder implements IBuilder
 		bool $www,
 		string $host,
 		string $localizationCode,
+		string $currencyCode,
 		Email $email
 	): self
 	{
-		return new self($customerNumber, $title, $scheme, $www, $host, $localizationCode, $email);
+		return new self($customerNumber, $title, $scheme, $www, $host, $localizationCode, $currencyCode, $email);
 	}
 }

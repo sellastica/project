@@ -16,6 +16,7 @@ class ProjectFactory extends EntityFactory
 	/** @var ShopProxyFactory */
 	private $shopProxyFactory;
 
+
 	/**
 	 * @param EntityManager $em
 	 * @param \Sellastica\Entity\Event\IDomainEventPublisher $eventPublisher
@@ -38,6 +39,7 @@ class ProjectFactory extends EntityFactory
 	{
 		$entity->setRelationService(new ProjectRelations($entity, $this->em));
 		$entity->doInitialize(
+			new \Project\Model\InternalProjectSpecifics($entity, $this->em),
 			$this->shopProxyFactory
 		);
 	}
