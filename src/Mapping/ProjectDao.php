@@ -38,6 +38,7 @@ class ProjectDao extends Dao
 			$data->www,
 			$data->host,
 			$data->localizationCode,
+			$data->currencyCode,
 			new Email($data->email)
 		)->hydrate($data);
 	}
