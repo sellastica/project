@@ -63,7 +63,8 @@ class ProjectRelations implements IEntityRelations
 	{
 		return $this->em->getRepository(Store::class)->findStores(
 			$filters,
-			$configuration ?? Configuration::sortBy('title')
+			$configuration ?? Configuration::sortBy('title'),
+			true
 		);
 	}
 
