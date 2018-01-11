@@ -13,23 +13,23 @@ use Sellastica\Entity\IBuilder;
  */
 class ProjectFactory extends EntityFactory
 {
-	/** @var ShopProxyFactory */
-	private $shopProxyFactory;
+	/** @var \Core\Presentation\Web\ShopProxyFactory */
+	private $proxyFactory;
 
 
 	/**
 	 * @param EntityManager $em
 	 * @param \Sellastica\Entity\Event\IDomainEventPublisher $eventPublisher
-	 * @param ShopProxyFactory $shopProxyFactory
+	 * @param \Core\Presentation\Web\ShopProxyFactory $proxyFactory
 	 */
 	public function __construct(
 		EntityManager $em,
 		IDomainEventPublisher $eventPublisher,
-		ShopProxyFactory $shopProxyFactory
+		ShopProxyFactory $proxyFactory
 	)
 	{
 		parent::__construct($em, $eventPublisher);
-		$this->shopProxyFactory = $shopProxyFactory;
+		$this->proxyFactory = $proxyFactory;
 	}
 
 	/**
@@ -39,8 +39,10 @@ class ProjectFactory extends EntityFactory
 	{
 		$entity->setRelationService(new ProjectRelations($entity, $this->em));
 		$entity->doInitialize(
-			new \Project\Model\InternalProjectSpecifics($entity, $this->em),
-			$this->shopProxyFactory
+			new \Project\Model\InternalProjectSpecifics(
+				$entity,
+				$this->proxyFactory
+			)
 		);
 	}
 

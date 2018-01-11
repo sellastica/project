@@ -5,8 +5,6 @@ use Core\Domain\Model\Project\Theme;
 use Core\Domain\Model\Project\ThemeCollection;
 use Core\Domain\Model\Store\Store;
 use Core\Domain\Model\Store\StoreCollection;
-use Core\Presentation\Web\ShopProxy;
-use Core\Presentation\Web\ShopProxyFactory;
 use Nette\Http\Url;
 use Project\Model\InternalProjectSpecifics;
 use Sellastica\Api\Model\IPayloadable;
@@ -71,8 +69,6 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $stores;
 	/** @var int */
 	private $storesCount;
-	/** @var ShopProxyFactory */
-	private $proxyFactory;
 
 	/** @var Url */
 	private $defaultUrl;
@@ -93,15 +89,12 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 
 	/**
 	 * @param InternalProjectSpecifics $internalProjectSpecifics
-	 * @param ShopProxyFactory $proxyFactory
 	 */
 	public function doInitialize(
-		InternalProjectSpecifics $internalProjectSpecifics,
-		ShopProxyFactory $proxyFactory
+		InternalProjectSpecifics $internalProjectSpecifics
 	)
 	{
 		$this->internalProjectSpecifics = $internalProjectSpecifics;
-		$this->proxyFactory = $proxyFactory;
 	}
 
 	/**
