@@ -34,7 +34,7 @@ class SettingDao extends Dao
 	/**
 	 * @return EntityCollection|SettingCollection
 	 */
-	protected function getEmptyCollection(): EntityCollection
+	public function getEmptyCollection(): EntityCollection
 	{
 		return new SettingCollection();
 	}

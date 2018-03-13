@@ -29,7 +29,7 @@ class ProjectUrlDao extends Dao
 	/**
 	 * @return EntityCollection|ProjectUrlCollection
 	 */
-	protected function getEmptyCollection(): EntityCollection
+	public function getEmptyCollection(): EntityCollection
 	{
 		return new \Sellastica\Project\Entity\ProjectUrlCollection;
 	}

@@ -46,7 +46,7 @@ class ProjectDao extends Dao
 	/**
 	 * @return EntityCollection|ProjectCollection
 	 */
-	protected function getEmptyCollection(): EntityCollection
+	public function getEmptyCollection(): EntityCollection
 	{
 		return new ProjectCollection();
 	}

@@ -29,7 +29,7 @@ class ProjectGroupDao extends Dao
 	/**
 	 * @return \Sellastica\Entity\Entity\EntityCollection|\Sellastica\Project\Entity\ProjectGroupCollection
 	 */
-	protected function getEmptyCollection(): EntityCollection
+	public function getEmptyCollection(): EntityCollection
 	{
 		return new ProjectGroupCollection;
 	}
