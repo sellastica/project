@@ -1,8 +1,8 @@
 <?php
 namespace Sellastica\Project\Entity;
 
-use Core\Domain\Model\Project\Theme;
-use Core\Domain\Model\Project\ThemeCollection;
+use Theme\Theme\Entity\Theme;
+use Theme\Theme\Entity\ThemeCollection;
 use Core\Domain\Model\Store\Store;
 use Core\Domain\Model\Store\StoreCollection;
 use Sellastica\Entity\Configuration;
@@ -77,9 +77,9 @@ class ProjectRelations implements IEntityRelations
 	}
 
 	/**
-	 * @return ThemeCollection
+	 * @return \Theme\Theme\Entity\ThemeCollection
 	 */
-	public function getThemes(): ThemeCollection
+	public function getThemes(): \Theme\Theme\Entity\ThemeCollection
 	{
 		return $this->em->getRepository(Theme::class)->findByProjectId($this->entity->getId());
 	}

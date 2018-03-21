@@ -1,8 +1,8 @@
 <?php
 namespace Sellastica\Project\Entity;
 
-use Core\Domain\Model\Project\Theme;
-use Core\Domain\Model\Project\ThemeCollection;
+use Theme\Theme\Entity\Theme;
+use Theme\Theme\Entity\ThemeCollection;
 use Core\Domain\Model\Store\Store;
 use Core\Domain\Model\Store\StoreCollection;
 use Nette\Http\Url;
@@ -307,17 +307,17 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
-	 * @return Theme|null
+	 * @return \Theme\Theme\Entity\Theme|null
 	 */
-	public function getTheme(): ?Theme
+	public function getTheme(): ?\Theme\Theme\Entity\Theme
 	{
 		return $this->relationService->getTheme();
 	}
 
 	/**
-	 * @return ThemeCollection
+	 * @return \Theme\Theme\Entity\ThemeCollection
 	 */
-	public function getThemes(): ThemeCollection
+	public function getThemes(): \Theme\Theme\Entity\ThemeCollection
 	{
 		return $this->relationService->getThemes();
 	}
