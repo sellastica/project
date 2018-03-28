@@ -28,10 +28,6 @@ class ProjectBuilder implements IBuilder
 	private $currencyCode;
 	/** @var Email */
 	private $email;
-	/** @var string|null */
-	private $phone;
-	/** @var string|null */
-	private $note;
 	/** @var int|null */
 	private $groupId;
 	/** @var int|null */
@@ -42,6 +38,12 @@ class ProjectBuilder implements IBuilder
 	private $b2b;
 	/** @var bool */
 	private $b2c;
+	/** @var string|null */
+	private $phone;
+	/** @var \Sellastica\Identity\Model\BillingAddress|null */
+	private $billingAddress;
+	/** @var string|null */
+	private $note;
 
 	/**
 	 * @param int $customerNumber
@@ -139,42 +141,6 @@ class ProjectBuilder implements IBuilder
 	}
 
 	/**
-	 * @return string|null
-	 */
-	public function getPhone()
-	{
-		return $this->phone;
-	}
-
-	/**
-	 * @param string|null $phone
-	 * @return $this
-	 */
-	public function phone(string $phone = null)
-	{
-		$this->phone = $phone;
-		return $this;
-	}
-
-	/**
-	 * @return string|null
-	 */
-	public function getNote()
-	{
-		return $this->note;
-	}
-
-	/**
-	 * @param string|null $note
-	 * @return $this
-	 */
-	public function note(string $note = null)
-	{
-		$this->note = $note;
-		return $this;
-	}
-
-	/**
 	 * @return int|null
 	 */
 	public function getGroupId()
@@ -261,6 +227,60 @@ class ProjectBuilder implements IBuilder
 	public function b2c(bool $b2c)
 	{
 		$this->b2c = $b2c;
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getPhone()
+	{
+		return $this->phone;
+	}
+
+	/**
+	 * @param string|null $phone
+	 * @return $this
+	 */
+	public function phone(string $phone = null)
+	{
+		$this->phone = $phone;
+		return $this;
+	}
+
+	/**
+	 * @return \Sellastica\Identity\Model\BillingAddress|null
+	 */
+	public function getBillingAddress()
+	{
+		return $this->billingAddress;
+	}
+
+	/**
+	 * @param \Sellastica\Identity\Model\BillingAddress|null $billingAddress
+	 * @return $this
+	 */
+	public function billingAddress(\Sellastica\Identity\Model\BillingAddress $billingAddress = null)
+	{
+		$this->billingAddress = $billingAddress;
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getNote()
+	{
+		return $this->note;
+	}
+
+	/**
+	 * @param string|null $note
+	 * @return $this
+	 */
+	public function note(string $note = null)
+	{
+		$this->note = $note;
 		return $this;
 	}
 

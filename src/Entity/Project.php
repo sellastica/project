@@ -43,12 +43,6 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $localizationCode;
 	/** @var string @required */
 	private $currencyCode;
-	/** @var Email @required */
-	private $email;
-	/** @var string|null @optional */
-	private $phone;
-	/** @var string|null @optional */
-	private $note;
 
 	/** @var int|null @optional */
 	private $groupId;
@@ -64,6 +58,15 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $b2b;
 	/** @var bool @optional */
 	private $b2c;
+
+	/** @var Email @required */
+	private $email;
+	/** @var string|null @optional */
+	private $phone;
+	/** @var \Sellastica\Identity\Model\BillingAddress|null @optional */
+	private $billingAddress;
+	/** @var string|null @optional */
+	private $note;
 
 	/** @var StoreCollection|Store[] */
 	private $stores;
@@ -192,6 +195,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public function setPhone(string $phone = null)
 	{
 		$this->phone = $phone;
+	}
+
+	/**
+	 * @return null|\Sellastica\Identity\Model\BillingAddress
+	 */
+	public function getBillingAddress(): ?\Sellastica\Identity\Model\BillingAddress
+	{
+		return $this->billingAddress;
+	}
+
+	/**
+	 * @param null|\Sellastica\Identity\Model\BillingAddress $billingAddress
+	 */
+	public function setBillingAddress(?\Sellastica\Identity\Model\BillingAddress $billingAddress): void
+	{
+		$this->billingAddress = $billingAddress;
 	}
 
 	/**
@@ -385,12 +404,23 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'title' => $this->title,
 				'localizationCode' => $this->localizationCode,
 				'note' => $this->note,
-				'email' => $this->getEmail(),
-				'phone' => $this->phone,
 				'themeId' => $this->themeId,
 				'backend' => $this->backend,
 				'b2b' => $this->b2b,
 				'b2c' => $this->b2c,
+				//contact
+				'email' => $this->getEmail(),
+				'phone' => $this->phone,
+			],
+			//billing address
+			$this->billingAddress ? $this->billingAddress->toArray() : [
+				'company' => null,
+				'street' => null,
+				'city' => null,
+				'zip' => null,
+				'countryCode' => null,
+				'cin' => null,
+				'tin' => null,
 			],
 			$this->internalProjectSpecifics->toArray()
 		);
