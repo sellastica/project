@@ -1,29 +1,23 @@
 <?php
 namespace Sellastica\Project\Model;
 
-use Core\Domain\Exception\SettingNotFoundException;
-use Nette;
-use Notification\Service\EmailLogoService;
-use Sellastica\Entity\EntityManager;
-use Sellastica\Project\Entity\Setting;
-
 class Settings implements \ArrayAccess
 {
 	/** @var array */
 	private $settings = [];
-	/** @var EntityManager */
+	/** @var \Sellastica\Entity\EntityManager */
 	private $em;
-	/** @var Nette\Http\IRequest */
+	/** @var \Nette\Http\IRequest */
 	private $request;
 
 
 	/**
-	 * @param EntityManager $em
-	 * @param Nette\Http\IRequest $request
+	 * @param \Sellastica\Entity\EntityManager $em
+	 * @param \Nette\Http\IRequest $request
 	 */
 	public function __construct(
-		EntityManager $em,
-		Nette\Http\IRequest $request
+		\Sellastica\Entity\EntityManager $em,
+		\Nette\Http\IRequest $request
 	)
 	{
 		$this->em = $em;
@@ -51,9 +45,9 @@ class Settings implements \ArrayAccess
 	}
 
 	/**
-	 * @param Setting $setting
+	 * @param \Sellastica\Project\Entity\Setting $setting
 	 */
-	public function addSetting(Setting $setting)
+	public function addSetting(\Sellastica\Project\Entity\Setting $setting)
 	{
 		if (!$setting->getScope()) {
 			$this->settings[$setting->getCode()] = $setting;
@@ -74,14 +68,14 @@ class Settings implements \ArrayAccess
 	/**
 	 * @param string $key
 	 * @param bool $object
-	 * @return Setting|string|null
-	 * @throws SettingNotFoundException
+	 * @return \Sellastica\Project\Entity\Setting|string|null
+	 * @throws \Sellastica\Project\Exception\SettingNotFoundException
 	 */
 	public function getSetting($key, bool $object = false)
 	{
 		if (strpos($key, '.') === false) {
 			if (!array_key_exists($key, $this->settings)) {
-				throw new SettingNotFoundException(
+				throw new \Sellastica\Project\Exception\SettingNotFoundException(
 					sprintf('Setting %s not found in the setting table (%s another settings found)', $key, sizeof($this->settings))
 				);
 			}
@@ -91,7 +85,7 @@ class Settings implements \ArrayAccess
 			list($scope, $key) = explode('.', $key);
 			if (!array_key_exists($scope, $this->settings)
 				|| !array_key_exists($key, $this->settings[$scope])) {
-				throw new SettingNotFoundException(
+				throw new \Sellastica\Project\Exception\SettingNotFoundException(
 					sprintf('Setting %s not found in the setting table (%s another settings found)', "$scope.$key", sizeof($this->settings))
 				);
 			}
@@ -160,14 +154,14 @@ class Settings implements \ArrayAccess
 	}
 
 	/**
-	 * @return Nette\Http\Url|null
+	 * @return \Nette\Http\Url|null
 	 */
-	public function getEmailLogoUrl(): ?Nette\Http\Url
+	public function getEmailLogoUrl(): ?\Nette\Http\Url
 	{
 		$filename = $this->getSetting('email.email_logo_file_name');
-		$relPath = EmailLogoService::IMAGE_REL_PATH . '/' . $filename;
+		$relPath = \Notification\Service\EmailLogoService::IMAGE_REL_PATH . '/' . $filename;
 		return !empty($filename) && is_file(WWW_DIR . '/' . $relPath)
-			? new Nette\Http\Url($this->request->getUrl()->getHostUrl() . '/' . $relPath)
+			? new \Nette\Http\Url($this->request->getUrl()->getHostUrl() . '/' . $relPath)
 			: null;
 	}
 }

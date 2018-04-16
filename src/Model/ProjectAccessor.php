@@ -1,20 +1,12 @@
 <?php
 namespace Sellastica\Project\Model;
 
-use Nette\Http\IRequest;
-use Nette\Http\UrlScript;
-use Sellastica\BlueScreen\BlueScreen;
-use Sellastica\Core\Model\FactoryAccessor;
-use Sellastica\Entity\EntityManager;
-use Sellastica\Project\Entity\Project;
-use Sellastica\Utils\Strings;
-
 /**
- * @method Project get()
+ * @method \Sellastica\Project\Entity\Project get()
  */
-class ProjectAccessor extends FactoryAccessor
+class ProjectAccessor extends \Sellastica\Core\Model\FactoryAccessor
 {
-	/** @var UrlScript */
+	/** @var \Nette\Http\UrlScript */
 	private $url;
 	/** @var \Sellastica\Entity\EntityManager */
 	private $em;
@@ -22,11 +14,11 @@ class ProjectAccessor extends FactoryAccessor
 
 	/**
 	 * @param \Sellastica\Entity\EntityManager $em
-	 * @param IRequest $request
+	 * @param \Nette\Http\IRequest $request
 	 */
 	public function __construct(
-		EntityManager $em,
-		IRequest $request
+		\Sellastica\Entity\EntityManager $em,
+		\Nette\Http\IRequest $request
 	)
 	{
 		$this->url = $request->getUrl();
@@ -34,15 +26,15 @@ class ProjectAccessor extends FactoryAccessor
 	}
 
 	/**
-	 * @return Project
+	 * @return \Sellastica\Project\Entity\Project
 	 */
-	public function create(): Project
+	public function create(): \Sellastica\Project\Entity\Project
 	{
 		//ignore if host contains www or not - we will potentionally redirect in the ProjectRedirectHandler
-		$host = Strings::removeFromBeginning($this->url->getHost(), 'www.');
-		$project = $this->em->getRepository(Project::class)->findByHost($host);
+		$host = \Sellastica\Utils\Strings::removeFromBeginning($this->url->getHost(), 'www.');
+		$project = $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findByHost($host);
 		if (!isset($project)) {
-			BlueScreen::display(sprintf('Project %s not found', $this->url->getHostUrl()));
+			\Sellastica\BlueScreen\BlueScreen::display(sprintf('Project %s not found', $this->url->getHostUrl()));
 			die;
 		}
 

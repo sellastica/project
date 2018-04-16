@@ -1,37 +1,35 @@
 <?php
 namespace Sellastica\Project\Model;
 
-use Nette\Http\IRequest;
-use Nette\Http\Url;
-use Sellastica\Project\Entity\Project;
-use Sellastica\Utils\Strings;
-
 class ProjectRedirectHandler
 {
 	/** @var \Sellastica\Project\Entity\Project */
 	private $project;
-	/** @var Url */
+	/** @var \Nette\Http\Url */
 	private $currentUrl;
 
 
 	/**
-	 * @param Project $project
-	 * @param IRequest $httpRequest
+	 * @param \Sellastica\Project\Entity\Project $project
+	 * @param \Nette\Http\IRequest $httpRequest
 	 */
-	public function __construct(Project $project, IRequest $httpRequest)
+	public function __construct(
+		\Sellastica\Project\Entity\Project $project,
+		\Nette\Http\IRequest $httpRequest
+	)
 	{
 		$this->project = $project;
 		$this->currentUrl = $httpRequest->getUrl();
 	}
 
 	/**
-	 * @return Url|null
+	 * @return \Nette\Http\Url|null
 	 */
-	public function getRedirectUrl(): ?Url
+	public function getRedirectUrl(): ?\Nette\Http\Url
 	{
-		$currentHostStartsWithWww = Strings::startsWith($this->currentUrl->getHost(), 'www.');
+		$currentHostStartsWithWww = \Nette\Utils\Strings::startsWith($this->currentUrl->getHost(), 'www.');
 		if ($currentHostStartsWithWww) {
-			$currentHost = Strings::after($this->currentUrl->getHost(), 'www.');
+			$currentHost = \Nette\Utils\Strings::after($this->currentUrl->getHost(), 'www.');
 		} else {
 			$currentHost = $this->currentUrl->getHost();
 		}
@@ -63,10 +61,10 @@ class ProjectRedirectHandler
 	}
 
 	/**
-	 * @param Url $url
-	 * @return Url
+	 * @param \Nette\Http\Url $url
+	 * @return \Nette\Http\Url
 	 */
-	private function buildUrl(Url $url): Url
+	private function buildUrl(\Nette\Http\Url $url): \Nette\Http\Url
 	{
 		//alltought it might seem easier to clone current url instead of $url,
 		//problem is that current URL containt port number and it cannot be unset
