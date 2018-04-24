@@ -23,7 +23,7 @@ use Sellastica\Utils\Strings;
  *
  * @property ProjectRelations $relationService
  */
-class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
+class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable, \Sellastica\Entity\Entity\IAggregateRoot
 {
 	use TAbstractEntity;
 
@@ -222,6 +222,14 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @param string $scheme
+	 */
+	public function setScheme(string $scheme): void
+	{
+		$this->scheme = $scheme;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isWww(): bool
@@ -230,11 +238,27 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @param bool $www
+	 */
+	public function setWww(bool $www): void
+	{
+		$this->www = $www;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getHost(): string
 	{
 		return $this->host;
+	}
+
+	/**
+	 * @param string $host
+	 */
+	public function setHost(string $host): void
+	{
+		$this->host = $host;
 	}
 
 	/**
@@ -275,6 +299,36 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 		}
 
 		return $this->urls;
+	}
+
+	/**
+	 * @param string $host
+	 * @param bool $www
+	 * @param string $scheme
+	 * @param bool $redirect
+	 */
+	public function addUrl(
+		string $host,
+		bool $www = false,
+		string $scheme = 'http',
+		bool $redirect = false
+	): void
+	{
+		$url = ProjectUrlBuilder::create($this->getId(), $scheme, $www, $host)
+			->redirect($redirect)
+			->build();
+		$this->eventPublisher->publish(new \Sellastica\Entity\Event\AggregateMemberAdded($this, $url));
+	}
+
+	/**
+	 * @param \Sellastica\Project\Entity\ProjectUrl $url
+	 */
+	public function removeUrl(ProjectUrl $url): void
+	{
+		if ($this->getUrls()->hasEntity($url)) {
+			$this->getUrls()->remove($url);
+			$this->eventPublisher->publish(new \Sellastica\Entity\Event\AggregateMemberRemoved($this, $url));
+		}
 	}
 
 	/**
@@ -402,6 +456,9 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'id' => $this->id,
 				'customerNumber' => $this->customerNumber,
 				'title' => $this->title,
+				'scheme' => $this->scheme,
+				'www' => $this->www,
+				'host' => $this->host,
 				'localizationCode' => $this->localizationCode,
 				'note' => $this->note,
 				'themeId' => $this->themeId,

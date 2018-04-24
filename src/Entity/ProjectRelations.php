@@ -11,26 +11,26 @@ use Sellastica\Entity\EntityManager;
 use Sellastica\Entity\Relation\IEntityRelations;
 
 /**
- * @property Project $entity
+ * @property Project $project
  */
 class ProjectRelations implements IEntityRelations
 {
 	/** @var IEntity */
-	private $entity;
+	private $project;
 	/** @var EntityManager */
 	private $em;
 
 
 	/**
-	 * @param IEntity $entity
+	 * @param IEntity $project
 	 * @param EntityManager $em
 	 */
 	public function __construct(
-		IEntity $entity,
+		IEntity $project,
 		EntityManager $em
 	)
 	{
-		$this->entity = $entity;
+		$this->project = $project;
 		$this->em = $em;
 	}
 
@@ -39,7 +39,7 @@ class ProjectRelations implements IEntityRelations
 	 */
 	public function getUrls(): ProjectUrlCollection
 	{
-		return $this->em->getRepository(ProjectUrl::class)->findBy(['projectId' => $this->entity->getId()]);
+		return $this->em->getRepository(ProjectUrl::class)->findBy(['projectId' => $this->project->getId()]);
 	}
 
 	/**
@@ -47,11 +47,11 @@ class ProjectRelations implements IEntityRelations
 	 */
 	public function getGroup()
 	{
-		if (!$this->entity->getGroupId()) {
+		if (!$this->project->getGroupId()) {
 			return null;
 		}
 
-		return $this->em->getRepository(ProjectGroup::class)->find($this->entity->getGroupId());
+		return $this->em->getRepository(ProjectGroup::class)->find($this->project->getGroupId());
 	}
 
 	/**
@@ -81,7 +81,7 @@ class ProjectRelations implements IEntityRelations
 	 */
 	public function getThemes(): \Theme\Theme\Entity\ThemeCollection
 	{
-		return $this->em->getRepository(Theme::class)->findByProjectId($this->entity->getId());
+		return $this->em->getRepository(Theme::class)->findByProjectId($this->project->getId());
 	}
 
 	/**
@@ -89,6 +89,6 @@ class ProjectRelations implements IEntityRelations
 	 */
 	public function getTheme(): ?Theme
 	{
-		return $this->em->getRepository(Theme::class)->find($this->entity->getThemeId());
+		return $this->em->getRepository(Theme::class)->find($this->project->getThemeId());
 	}
 }

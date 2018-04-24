@@ -9,8 +9,10 @@ use Sellastica\Http\Url;
 /**
  * @generate-builder
  * @see ProjectUrlBuilder
+ *
+ * @property ProjectUrlRelations $relationService
  */
-class ProjectUrl extends AbstractEntity implements IEntity
+class ProjectUrl extends AbstractEntity implements IEntity, \Sellastica\Entity\Entity\IAggregateMember
 {
 	use TAbstractEntity;
 
@@ -34,6 +36,51 @@ class ProjectUrl extends AbstractEntity implements IEntity
 	public function __construct(ProjectUrlBuilder $builder)
 	{
 		$this->hydrate($builder);
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getAggregateId(): int
+	{
+		return $this->projectId;
+	}
+
+	public function getAggregateRootClass(): string
+	{
+		return Project::class;
+	}
+
+	/**
+	 * @return \Sellastica\Project\Entity\Project
+	 */
+	public function getAggregateRoot(): Project
+	{
+		return $this->getProject();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isIdGeneratedByStorage(): bool
+	{
+		return true;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getProjectId(): int
+	{
+		return $this->projectId;
+	}
+
+	/**
+	 * @return \Sellastica\Project\Entity\Project
+	 */
+	public function getProject(): Project
+	{
+		return $this->relationService->getProject();
 	}
 
 	/**
@@ -97,6 +144,7 @@ class ProjectUrl extends AbstractEntity implements IEntity
 			'id' => $this->id,
 			'projectId' => $this->projectId,
 			'scheme' => $this->scheme,
+			'www' => $this->www,
 			'host' => $this->host,
 			'redirect' => $this->redirect,
 		];

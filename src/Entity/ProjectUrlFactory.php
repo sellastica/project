@@ -16,6 +16,7 @@ class ProjectUrlFactory extends EntityFactory
 	 */
 	public function doInitialize(IEntity $entity)
 	{
+		$entity->setRelationService(new ProjectUrlRelations($entity, $this->em));
 	}
 
 	/**
