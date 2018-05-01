@@ -33,18 +33,7 @@ class ProjectDao extends Dao
 	 */
 	protected function getBuilder($data, $first = null, $second = null): IBuilder
 	{
-		if ($data->company) {
-			$billingAddress = new \Sellastica\Identity\Model\BillingAddress(
-				$data->company,
-				$data->street,
-				$data->city,
-				$data->zip,
-				\Sellastica\Localization\Model\Country::from($data->countryCode),
-				$data->cin,
-				$data->tin
-			);
-		}
-
+		$billingAddress = \Sellastica\Identity\Model\BillingAddress::fromArray((array)$data);
 		return \Sellastica\Project\Entity\ProjectBuilder::create(
 			$data->customerNumber,
 			$data->title,
@@ -55,7 +44,7 @@ class ProjectDao extends Dao
 			$data->currencyCode,
 			new Email($data->email)
 		)->hydrate($data)
-			->billingAddress($billingAddress ?? null);
+			->billingAddress(!$billingAddress->isEmpty() ? $billingAddress : null);
 	}
 
 	/**
