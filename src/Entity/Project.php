@@ -444,6 +444,14 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return ProjectContactCollection
+	 */
+	public function getContacts(): ProjectContactCollection
+	{
+		return $this->relationService->getContacts();
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array

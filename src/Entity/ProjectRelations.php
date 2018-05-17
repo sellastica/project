@@ -90,4 +90,14 @@ class ProjectRelations implements IEntityRelations
 	{
 		return $this->em->getRepository(Theme::class)->find($this->project->getThemeId());
 	}
+
+	/**
+	 * @return ProjectContactCollection|\Sellastica\Entity\Entity\EntityCollection
+	 */
+	public function getContacts(): ProjectContactCollection
+	{
+		return $this->em->getRepository(ProjectContact::class)->findAll(
+			Configuration::sortBy('lastName')
+		);
+	}
 }
