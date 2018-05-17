@@ -96,7 +96,9 @@ class ProjectRelations implements IEntityRelations
 	 */
 	public function getContacts(): ProjectContactCollection
 	{
-		return $this->em->getRepository(ProjectContact::class)->findAll(
+		return $this->em->getRepository(ProjectContact::class)->findby([
+			'projectId' => $this->project->getId(),
+		],
 			Configuration::sortBy('lastName')
 		);
 	}

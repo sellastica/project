@@ -13,12 +13,10 @@ class ProjectContact extends \Sellastica\Entity\Entity\AbstractEntity implements
 
 	/** @var int @required */
 	private $projectId;
-	/** @var string @required */
-	private $firstName;
-	/** @var string @required */
-	private $lastName;
-	/** @var \Sellastica\Identity\Model\Email @required */
-	private $email;
+	/** @var \Sellastica\Identity\Model\Contact @required */
+	private $contact;
+	/** @var string|null @optional */
+	private $note;
 
 
 	/**
@@ -54,59 +52,35 @@ class ProjectContact extends \Sellastica\Entity\Entity\AbstractEntity implements
 	}
 
 	/**
-	 * @return string
+	 * @return \Sellastica\Identity\Model\Contact
 	 */
-	public function getEmail(): string 
+	public function getContact(): \Sellastica\Identity\Model\Contact
 	{
-		return $this->email->getEmail();
+		return $this->contact;
 	}
 
 	/**
-	 * @param \Sellastica\Identity\Model\Email $email
+	 * @param \Sellastica\Identity\Model\Contact $contact
 	 */
-	public function setEmail(\Sellastica\Identity\Model\Email $email): void
+	public function setContact(\Sellastica\Identity\Model\Contact $contact): void
 	{
-		$this->email = $email;
+		$this->contact = $contact;
 	}
 
 	/**
-	 * @return string
+	 * @return null|string
 	 */
-	public function getFirstName(): string
+	public function getNote(): ?string
 	{
-		return $this->firstName;
+		return $this->note;
 	}
 
 	/**
-	 * @param string $firstName
+	 * @param null|string $note
 	 */
-	public function setFirstName(string $firstName): void
+	public function setNote(?string $note): void
 	{
-		$this->firstName = $firstName;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getLastName(): string
-	{
-		return $this->lastName;
-	}
-
-	/**
-	 * @param string $lastName
-	 */
-	public function setLastName(string $lastName): void
-	{
-		$this->lastName = $lastName;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFullName(): string
-	{
-		return trim($this->firstName . ' ' . $this->lastName);
+		$this->note = $note;
 	}
 
 	/**
@@ -117,9 +91,10 @@ class ProjectContact extends \Sellastica\Entity\Entity\AbstractEntity implements
 		return [
 			'id' => $this->id,
 			'projectId' => $this->projectId,
-			'firstName' => $this->firstName,
-			'lastName' => $this->lastName,
-			'email' => $this->email->getEmail(),
+			'firstName' => $this->contact->getFirstName(),
+			'lastName' => $this->contact->getLastName(),
+			'email' => $this->contact->getEmail()->getEmail(),
+			'note' => $this->note,
 		];
 	}
 }

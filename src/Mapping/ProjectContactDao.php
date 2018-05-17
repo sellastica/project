@@ -23,8 +23,13 @@ class ProjectContactDao extends Dao
 		$second = null
 	): IBuilder
 	{
-		$data->email = new \Sellastica\Identity\Model\Email($data->email);
-		return ProjectContactBuilder::create($data->projectId, $data->firstName, $data->lastName, $data->email)
+		$contact = new \Sellastica\Identity\Model\Contact(
+			$data->firstName,
+			$data->lastName,
+			new \Sellastica\Identity\Model\Email($data->email),
+			$data->phone
+		);
+		return ProjectContactBuilder::create($data->projectId, $contact)
 			->hydrate($data);
 	}
 

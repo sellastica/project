@@ -13,30 +13,22 @@ class ProjectContactBuilder implements IBuilder
 
 	/** @var int */
 	private $projectId;
-	/** @var string */
-	private $firstName;
-	/** @var string */
-	private $lastName;
-	/** @var \Sellastica\Identity\Model\Email */
-	private $email;
+	/** @var \Sellastica\Identity\Model\Contact */
+	private $contact;
+	/** @var string|null */
+	private $note;
 
 	/**
 	 * @param int $projectId
-	 * @param string $firstName
-	 * @param string $lastName
-	 * @param \Sellastica\Identity\Model\Email $email
+	 * @param \Sellastica\Identity\Model\Contact $contact
 	 */
 	public function __construct(
 		int $projectId,
-		string $firstName,
-		string $lastName,
-		\Sellastica\Identity\Model\Email $email
+		\Sellastica\Identity\Model\Contact $contact
 	)
 	{
 		$this->projectId = $projectId;
-		$this->firstName = $firstName;
-		$this->lastName = $lastName;
-		$this->email = $email;
+		$this->contact = $contact;
 	}
 
 	/**
@@ -48,27 +40,29 @@ class ProjectContactBuilder implements IBuilder
 	}
 
 	/**
-	 * @return string
+	 * @return \Sellastica\Identity\Model\Contact
 	 */
-	public function getFirstName(): string
+	public function getContact(): \Sellastica\Identity\Model\Contact
 	{
-		return $this->firstName;
+		return $this->contact;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getLastName(): string
+	public function getNote()
 	{
-		return $this->lastName;
+		return $this->note;
 	}
 
 	/**
-	 * @return \Sellastica\Identity\Model\Email
+	 * @param string|null $note
+	 * @return $this
 	 */
-	public function getEmail(): \Sellastica\Identity\Model\Email
+	public function note(string $note = null)
 	{
-		return $this->email;
+		$this->note = $note;
+		return $this;
 	}
 
 	/**
@@ -89,18 +83,14 @@ class ProjectContactBuilder implements IBuilder
 
 	/**
 	 * @param int $projectId
-	 * @param string $firstName
-	 * @param string $lastName
-	 * @param \Sellastica\Identity\Model\Email $email
+	 * @param \Sellastica\Identity\Model\Contact $contact
 	 * @return self
 	 */
 	public static function create(
 		int $projectId,
-		string $firstName,
-		string $lastName,
-		\Sellastica\Identity\Model\Email $email
+		\Sellastica\Identity\Model\Contact $contact
 	): self
 	{
-		return new self($projectId, $firstName, $lastName, $email);
+		return new self($projectId, $contact);
 	}
 }
