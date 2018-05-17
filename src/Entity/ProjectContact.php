@@ -94,6 +94,7 @@ class ProjectContact extends \Sellastica\Entity\Entity\AbstractEntity implements
 			'firstName' => $this->contact->getFirstName(),
 			'lastName' => $this->contact->getLastName(),
 			'email' => $this->contact->getEmail()->getEmail(),
+			'phone' => $this->contact->getPhone(),
 			'note' => $this->note,
 		];
 	}
