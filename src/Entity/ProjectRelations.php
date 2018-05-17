@@ -1,14 +1,13 @@
 <?php
 namespace Sellastica\Project\Entity;
 
-use Theme\Theme\Entity\Theme;
-use Theme\Theme\Entity\ThemeCollection;
 use Core\Domain\Model\Store\Store;
 use Core\Domain\Model\Store\StoreCollection;
 use Sellastica\Entity\Configuration;
 use Sellastica\Entity\Entity\IEntity;
 use Sellastica\Entity\EntityManager;
 use Sellastica\Entity\Relation\IEntityRelations;
+use Theme\Theme\Entity\Theme;
 
 /**
  * @property Project $project

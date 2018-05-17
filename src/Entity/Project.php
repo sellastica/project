@@ -1,8 +1,6 @@
 <?php
 namespace Sellastica\Project\Entity;
 
-use Theme\Theme\Entity\Theme;
-use Theme\Theme\Entity\ThemeCollection;
 use Core\Domain\Model\Store\Store;
 use Core\Domain\Model\Store\StoreCollection;
 use Nette\Http\Url;
