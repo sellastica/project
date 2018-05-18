@@ -75,6 +75,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $defaultUrl;
 	/** @var ProjectUrlCollection|ProjectUrl[] */
 	private $urls;
+	/** @var bool @optional */
+	private $vatPayer = true;
 
 	/** @var InternalProjectSpecifics */
 	private $internalProjectSpecifics;
@@ -452,6 +454,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isVatPayer(): bool
+	{
+		return $this->vatPayer;
+	}
+
+	/**
+	 * @param bool $vatPayer
+	 */
+	public function setVatPayer(bool $vatPayer): void
+	{
+		$this->vatPayer = $vatPayer;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -471,6 +489,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'backend' => $this->backend,
 				'b2b' => $this->b2b,
 				'b2c' => $this->b2c,
+				'vatPayer' => $this->vatPayer,
 				//contact
 				'email' => $this->getEmail(),
 				'phone' => $this->phone,

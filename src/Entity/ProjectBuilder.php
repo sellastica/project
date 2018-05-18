@@ -44,6 +44,8 @@ class ProjectBuilder implements IBuilder
 	private $billingAddress;
 	/** @var string|null */
 	private $note;
+	/** @var bool */
+	private $vatPayer = true;
 
 	/**
 	 * @param int $customerNumber
@@ -281,6 +283,24 @@ class ProjectBuilder implements IBuilder
 	public function note(string $note = null)
 	{
 		$this->note = $note;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getVatPayer(): bool
+	{
+		return $this->vatPayer;
+	}
+
+	/**
+	 * @param bool $vatPayer
+	 * @return $this
+	 */
+	public function vatPayer(bool $vatPayer = true)
+	{
+		$this->vatPayer = $vatPayer;
 		return $this;
 	}
 
