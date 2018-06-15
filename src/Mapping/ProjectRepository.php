@@ -11,7 +11,7 @@ use Sellastica\Project\Entity\Project;
 class ProjectRepository extends Repository implements \Sellastica\Project\Entity\IProjectRepository
 {
 	use TApiRepository;
-	use \Sellastica\DataGrid\Mapping\TFilterRulesRepository;
+	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesRepository;
 
 	/**
 	 * @param string $host

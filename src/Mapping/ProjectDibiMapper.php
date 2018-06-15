@@ -7,7 +7,7 @@ use Sellastica\Entity\Mapping\DibiMapper;
 class ProjectDibiMapper extends DibiMapper
 {
 	use TApiDibiMapper;
-	use \Sellastica\DataGrid\Mapping\TFilterRulesDibiMapper;
+	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesDibiMapper;
 
 
 	/**

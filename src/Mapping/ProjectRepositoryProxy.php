@@ -11,7 +11,7 @@ use Sellastica\Project\Entity\IProjectRepository;
 class ProjectRepositoryProxy extends RepositoryProxy implements IProjectRepository
 {
 	use TApiRepositoryProxy;
-	use \Sellastica\DataGrid\Mapping\TFilterRulesRepositoryProxy;
+	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesRepositoryProxy;
 
 
 	public function findByHost(string $host)

@@ -16,7 +16,7 @@ use Sellastica\Project\Entity\ProjectCollection;
 class ProjectDao extends Dao
 {
 	use TApiDao;
-	use \Sellastica\DataGrid\Mapping\TFilterRulesDao;
+	use \Sellastica\DataGrid\Mapping\Dibi\TFilterRulesDao;
 
 
 	/**
