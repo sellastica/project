@@ -35,7 +35,7 @@ class ProjectGroupRelations implements IEntityRelations
 	 */
 	public function getProjects(): ProjectCollection
 	{
-		return $this->em->getRepository('Project')
+		return $this->em->getRepository(Project::class)
 			->findBy(['groupId' => $this->entity->getId()], Configuration::sortBy('title'));
 	}
 }
