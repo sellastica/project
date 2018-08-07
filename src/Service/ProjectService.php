@@ -45,4 +45,13 @@ class ProjectService
 
 		return $project;
 	}
+
+	/**
+	 * @param string $host
+	 * @return null|\Sellastica\Project\Entity\Project
+	 */
+	public function findByHost(string $host): ?\Sellastica\Project\Entity\Project
+	{
+		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findByHost($host);
+	}
 }
