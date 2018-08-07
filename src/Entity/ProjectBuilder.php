@@ -31,11 +31,11 @@ class ProjectBuilder implements IBuilder
 	/** @var int|null */
 	private $themeId;
 	/** @var bool */
-	private $backend;
+	private $backend = true;
 	/** @var bool */
-	private $b2b;
+	private $b2b = false;
 	/** @var bool */
-	private $b2c;
+	private $b2c = true;
 	/** @var string|null */
 	private $phone;
 	/** @var \Sellastica\Identity\Model\BillingAddress|null */
@@ -177,7 +177,7 @@ class ProjectBuilder implements IBuilder
 	 * @param bool $backend
 	 * @return $this
 	 */
-	public function backend(bool $backend)
+	public function backend(bool $backend = true)
 	{
 		$this->backend = $backend;
 		return $this;
@@ -213,7 +213,7 @@ class ProjectBuilder implements IBuilder
 	 * @param bool $b2c
 	 * @return $this
 	 */
-	public function b2c(bool $b2c)
+	public function b2c(bool $b2c = true)
 	{
 		$this->b2c = $b2c;
 		return $this;

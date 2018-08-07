@@ -46,12 +46,12 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	/** @var int|null @optional */
 	private $themeId;
 	/** @var bool @optional */
-	private $backend;
+	private $backend = true;
 
 	/** @var bool @optional */
-	private $b2b;
+	private $b2b = false;
 	/** @var bool @optional */
-	private $b2c;
+	private $b2c = true;
 
 	/** @var Email @required */
 	private $email;
