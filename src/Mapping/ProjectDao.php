@@ -35,7 +35,6 @@ class ProjectDao extends Dao
 	{
 		$billingAddress = \Sellastica\Identity\Model\BillingAddress::fromArray((array)$data);
 		return \Sellastica\Project\Entity\ProjectBuilder::create(
-			$data->customerNumber,
 			$data->title,
 			$data->scheme,
 			$data->www,

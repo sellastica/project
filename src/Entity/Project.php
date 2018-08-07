@@ -1,8 +1,6 @@
 <?php
 namespace Sellastica\Project\Entity;
 
-use Core\Domain\Model\Store\Store;
-use Core\Domain\Model\Store\StoreCollection;
 use Nette\Http\Url;
 use Project\Model\InternalProjectSpecifics;
 use Sellastica\Api\Model\IPayloadable;
@@ -25,8 +23,6 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 {
 	use TAbstractEntity;
 
-	/** @var int @required */
-	private $customerNumber;
 	/** @var string @required */
 	private $title;
 
@@ -66,7 +62,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	/** @var string|null @optional */
 	private $note;
 
-	/** @var StoreCollection|Store[] */
+	/** @var \Core\Domain\Model\Store\StoreCollection|\Core\Domain\Model\Store\Store[] */
 	private $stores;
 	/** @var int */
 	private $storesCount;
@@ -114,14 +110,6 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public static function isIdGeneratedByStorage(): bool
 	{
 		return true;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getCustomerNumber(): int
-	{
-		return $this->customerNumber;
 	}
 
 	/**
@@ -406,7 +394,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	/**
 	 * @param Configuration $configuration
 	 * @param array $filters
-	 * @return Store[]
+	 * @return \Core\Domain\Model\Store\Store[]
 	 */
 	public function getStores(Configuration $configuration = null, array $filters = [])
 	{
@@ -478,7 +466,6 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 			$this->parentToArray(),
 			[
 				'id' => $this->id,
-				'customerNumber' => $this->customerNumber,
 				'title' => $this->title,
 				'scheme' => $this->scheme,
 				'www' => $this->www,

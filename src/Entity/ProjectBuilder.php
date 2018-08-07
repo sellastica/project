@@ -12,8 +12,6 @@ class ProjectBuilder implements IBuilder
 {
 	use TBuilder;
 
-	/** @var int */
-	private $customerNumber;
 	/** @var string */
 	private $title;
 	/** @var string */
@@ -48,7 +46,6 @@ class ProjectBuilder implements IBuilder
 	private $vatPayer = true;
 
 	/**
-	 * @param int $customerNumber
 	 * @param string $title
 	 * @param string $scheme
 	 * @param bool $www
@@ -58,7 +55,6 @@ class ProjectBuilder implements IBuilder
 	 * @param Email $email
 	 */
 	public function __construct(
-		int $customerNumber,
 		string $title,
 		string $scheme,
 		bool $www,
@@ -68,7 +64,6 @@ class ProjectBuilder implements IBuilder
 		Email $email
 	)
 	{
-		$this->customerNumber = $customerNumber;
 		$this->title = $title;
 		$this->scheme = $scheme;
 		$this->www = $www;
@@ -76,14 +71,6 @@ class ProjectBuilder implements IBuilder
 		$this->localizationCode = $localizationCode;
 		$this->currencyCode = $currencyCode;
 		$this->email = $email;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getCustomerNumber(): int
-	{
-		return $this->customerNumber;
 	}
 
 	/**
@@ -321,7 +308,6 @@ class ProjectBuilder implements IBuilder
 	}
 
 	/**
-	 * @param int $customerNumber
 	 * @param string $title
 	 * @param string $scheme
 	 * @param bool $www
@@ -332,7 +318,6 @@ class ProjectBuilder implements IBuilder
 	 * @return self
 	 */
 	public static function create(
-		int $customerNumber,
 		string $title,
 		string $scheme,
 		bool $www,
@@ -342,6 +327,6 @@ class ProjectBuilder implements IBuilder
 		Email $email
 	): self
 	{
-		return new self($customerNumber, $title, $scheme, $www, $host, $localizationCode, $currencyCode, $email);
+		return new self($title, $scheme, $www, $host, $localizationCode, $currencyCode, $email);
 	}
 }
