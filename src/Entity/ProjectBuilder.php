@@ -44,6 +44,8 @@ class ProjectBuilder implements IBuilder
 	private $note;
 	/** @var bool */
 	private $vatPayer = true;
+	/** @var bool */
+	private $active = true;
 
 	/**
 	 * @param string $title
@@ -288,6 +290,24 @@ class ProjectBuilder implements IBuilder
 	public function vatPayer(bool $vatPayer = true)
 	{
 		$this->vatPayer = $vatPayer;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getActive(): bool
+	{
+		return $this->active;
+	}
+
+	/**
+	 * @param bool $active
+	 * @return $this
+	 */
+	public function active(bool $active = true)
+	{
+		$this->active = $active;
 		return $this;
 	}
 

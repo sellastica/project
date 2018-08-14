@@ -73,6 +73,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $urls;
 	/** @var bool @optional */
 	private $vatPayer = true;
+	/** @var bool @optional */
+	private $active = true;
 
 	/** @var InternalProjectSpecifics */
 	private $internalProjectSpecifics;
@@ -458,6 +460,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isActive(): bool
+	{
+		return $this->active;
+	}
+
+	/**
+	 * @param bool $active
+	 */
+	public function setActive(bool $active): void
+	{
+		$this->active = $active;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -471,12 +489,14 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'www' => $this->www,
 				'host' => $this->host,
 				'localizationCode' => $this->localizationCode,
+				'currencyCode' => $this->currencyCode,
 				'note' => $this->note,
 				'themeId' => $this->themeId,
 				'backend' => $this->backend,
 				'b2b' => $this->b2b,
 				'b2c' => $this->b2c,
 				'vatPayer' => $this->vatPayer,
+				'active' => $this->active,
 				//contact
 				'email' => $this->getEmail(),
 				'phone' => $this->phone,
