@@ -1,5 +1,5 @@
 <?php
-namespace Sellastica\Project\Service;
+namespace Sellastica\Project\Utils;
 
 class Helpers
 {

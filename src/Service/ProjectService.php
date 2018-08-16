@@ -32,7 +32,7 @@ class ProjectService
 	): \Sellastica\Project\Entity\Project
 	{
 		$project = \Sellastica\Project\Entity\ProjectBuilder::create(
-			$title ?? Helpers::getProjectTitle($url),
+			$title ?? \Sellastica\Project\Utils\Helpers::getProjectTitle($url),
 			$url->getScheme(),
 			strpos($url->getHost(), 'www') !== false,
 			$url->getHost(),
