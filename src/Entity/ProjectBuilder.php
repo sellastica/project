@@ -26,6 +26,8 @@ class ProjectBuilder implements IBuilder
 	private $currencyCode;
 	/** @var Email */
 	private $email;
+	/** @var string|null */
+	private $database;
 	/** @var int|null */
 	private $groupId;
 	/** @var int|null */
@@ -129,6 +131,24 @@ class ProjectBuilder implements IBuilder
 	public function getEmail(): Email
 	{
 		return $this->email;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getDatabase()
+	{
+		return $this->database;
+	}
+
+	/**
+	 * @param string|null $database
+	 * @return $this
+	 */
+	public function database(string $database = null)
+	{
+		$this->database = $database;
+		return $this;
 	}
 
 	/**

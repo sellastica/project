@@ -32,6 +32,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $www;
 	/** @var string @required */
 	private $host;
+	/** @var string|null @optional */
+	private $database;
 
 	/** @var string @required */
 	private $localizationCode;
@@ -249,6 +251,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public function setHost(string $host): void
 	{
 		$this->host = $host;
+	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getDatabase(): ?string
+	{
+		return $this->database;
+	}
+
+	/**
+	 * @param null|string $database
+	 */
+	public function setDatabase(?string $database): void
+	{
+		$this->database = $database;
 	}
 
 	/**
@@ -488,6 +506,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'scheme' => $this->scheme,
 				'www' => $this->www,
 				'host' => $this->host,
+				'database' => $this->database,
 				'localizationCode' => $this->localizationCode,
 				'currencyCode' => $this->currencyCode,
 				'note' => $this->note,

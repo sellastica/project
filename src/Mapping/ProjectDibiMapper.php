@@ -31,4 +31,16 @@ class ProjectDibiMapper extends DibiMapper
 			->or('%n.host = %s', $this->getTableName(), $host)
 			->fetchSingle();
 	}
+
+	/**
+	 * @param int $jobId
+	 * @return array
+	 */
+	public function findByJobId(int $jobId): array
+	{
+		return $this->database->select('projectId')
+			->from($this->environment->getCrmDatabaseName() . '.scheduler_project')
+			->where('jobId = %i', $jobId)
+			->fetchPairs();
+	}
 }

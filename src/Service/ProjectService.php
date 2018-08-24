@@ -35,7 +35,7 @@ class ProjectService
 			$title ?? \Sellastica\Project\Utils\Helpers::getProjectTitle($url),
 			$url->getScheme(),
 			strpos($url->getHost(), 'www') !== false,
-			$url->getHost(),
+			\Sellastica\Project\Utils\Helpers::getProjectHost($url),
 			$localization->getCode(),
 			$currency->getCode(),
 			$email
@@ -53,5 +53,23 @@ class ProjectService
 	public function findByHost(string $host): ?\Sellastica\Project\Entity\Project
 	{
 		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findByHost($host);
+	}
+
+	/**
+	 * @param int $jobId
+	 * @return \Sellastica\Project\Entity\ProjectCollection|\Sellastica\Project\Entity\Project[]
+	 */
+	public function findByJobId(int $jobId): \Sellastica\Project\Entity\ProjectCollection
+	{
+		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findByJobId($jobId);
+	}
+
+	/**
+	 * @param int $id
+	 * @return null|\Sellastica\Project\Entity\Project
+	 */
+	public function find(int $id): ?\Sellastica\Project\Entity\Project
+	{
+		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->find($id);
 	}
 }

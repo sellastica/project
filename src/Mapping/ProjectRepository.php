@@ -21,4 +21,13 @@ class ProjectRepository extends Repository implements \Sellastica\Project\Entity
 	{
 		return $this->initialize($this->dao->findByHost($host));
 	}
+
+	/**
+	 * @param int $jobId
+	 * @return \Sellastica\Project\Entity\ProjectCollection
+	 */
+	public function findByJobId(int $jobId): \Sellastica\Project\Entity\ProjectCollection
+	{
+		return $this->initialize($this->dao->findByJobId($jobId));
+	}
 }

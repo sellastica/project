@@ -18,4 +18,9 @@ class ProjectRepositoryProxy extends RepositoryProxy implements IProjectReposito
 	{
 		return $this->getRepository()->findByHost($host);
 	}
+
+	public function findByJobId(int $jobId): \Sellastica\Project\Entity\ProjectCollection
+	{
+		return $this->getRepository()->findByJobId($jobId);
+	}
 }

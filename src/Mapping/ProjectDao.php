@@ -29,6 +29,15 @@ class ProjectDao extends Dao
 	}
 
 	/**
+	 * @param int $jobId
+	 * @return ProjectCollection
+	 */
+	public function findByJobId(int $jobId): ProjectCollection
+	{
+		return $this->getEntitiesFromCacheOrStorage($this->mapper->findByJobId($jobId));
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	protected function getBuilder($data, $first = null, $second = null): IBuilder
