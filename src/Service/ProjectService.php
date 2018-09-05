@@ -52,6 +52,10 @@ class ProjectService
 	 */
 	public function findByHost(string $host): ?\Sellastica\Project\Entity\Project
 	{
+		if (\Nette\Utils\Strings::startsWith($host, 'www.')) {
+			$host = \Nette\Utils\Strings::after($host, 'www.');
+		}
+
 		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findByHost($host);
 	}
 

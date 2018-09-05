@@ -352,6 +352,17 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @param Url $url
+	 */
+	public function setDefaultUrl(Url $url): void
+	{
+		$this->scheme = $url->getScheme();
+		$this->www = strpos($url->getHost(), 'www') !== false;
+		$this->host = \Sellastica\Project\Utils\Helpers::getProjectHost($url);
+		$this->defaultUrl = null;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getNote()
