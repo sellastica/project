@@ -114,7 +114,7 @@ class ProjectRelations implements IEntityRelations
 	/**
 	 * @return ProjectCollection
 	 */
-	public function getAffiliateProjects(): ProjectCollection
+	public function getB2bProjects(): ProjectCollection
 	{
 		return $this->em->getRepository(Project::class)->findBy([
 			'parentProjectId' => $this->project->getId(),

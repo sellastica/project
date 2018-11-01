@@ -545,9 +545,9 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	/**
 	 * @return ProjectCollection|Project[]
 	 */
-	public function getAffiliateProjects(): ProjectCollection
+	public function getB2bProjects(): ProjectCollection
 	{
-		return $this->relationService->getAffiliateProjects();
+		return $this->relationService->getB2bProjects();
 	}
 
 	/**
