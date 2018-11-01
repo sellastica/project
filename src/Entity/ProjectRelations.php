@@ -102,4 +102,12 @@ class ProjectRelations implements IEntityRelations
 			Configuration::sortBy('lastName')
 		);
 	}
+
+	/**
+	 * @return null|Project
+	 */
+	public function getParentProject(): ?Project
+	{
+		return $this->em->getRepository(Project::class)->find($this->project->getParentProjectId());
+	}
 }

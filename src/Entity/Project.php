@@ -46,6 +46,11 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $group;
 
 	/** @var int|null @optional */
+	private $parentProjectId;
+	/** @var Project|null */
+	private $parentProject;
+
+	/** @var int|null @optional */
 	private $themeId;
 	/** @var bool @optional */
 	private $backend = true;
@@ -505,6 +510,39 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return int|null
+	 */
+	public function getParentProjectId(): ?int
+	{
+		return $this->parentProjectId;
+	}
+
+	/**
+	 * @param int|null $parentProjectId
+	 */
+	public function setParentProjectId(?int $parentProjectId): void
+	{
+		$this->parentProjectId = $parentProjectId;
+	}
+
+	/**
+	 * @return null|Project
+	 */
+	public function getParentProject(): ?Project
+	{
+		return $this->relationService->getParentProject();
+	}
+
+	/**
+	 * @param null|Project $parentProject
+	 */
+	public function setParentProject(?Project $parentProject): void
+	{
+		$this->parentProjectId = $parentProject->getId();
+		$this->parentProject = $parentProject;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -527,6 +565,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'b2c' => $this->b2c,
 				'vatPayer' => $this->vatPayer,
 				'active' => $this->active,
+				'parentProjectId' => $this->parentProjectId,
 				//contact
 				'email' => $this->getEmail(),
 				'phone' => $this->phone,
