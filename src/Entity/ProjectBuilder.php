@@ -31,6 +31,8 @@ class ProjectBuilder implements IBuilder
 	/** @var int|null */
 	private $groupId;
 	/** @var int|null */
+	private $parentProjectId;
+	/** @var int|null */
 	private $themeId;
 	/** @var bool */
 	private $backend = true;
@@ -166,6 +168,24 @@ class ProjectBuilder implements IBuilder
 	public function groupId(int $groupId = null)
 	{
 		$this->groupId = $groupId;
+		return $this;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getParentProjectId()
+	{
+		return $this->parentProjectId;
+	}
+
+	/**
+	 * @param int|null $parentProjectId
+	 * @return $this
+	 */
+	public function parentProjectId(int $parentProjectId = null)
+	{
+		$this->parentProjectId = $parentProjectId;
 		return $this;
 	}
 
