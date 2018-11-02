@@ -82,6 +82,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $vatPayer = true;
 	/** @var bool @optional */
 	private $active = true;
+	/** @var string|null @optional */
+	private $externalId;
 
 	/** @var InternalProjectSpecifics */
 	private $internalProjectSpecifics;
@@ -551,6 +553,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return null|string
+	 */
+	public function getExternalId(): ?string
+	{
+		return $this->externalId;
+	}
+
+	/**
+	 * @param null|string $externalId
+	 */
+	public function setExternalId(?string $externalId): void
+	{
+		$this->externalId = $externalId;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -577,6 +595,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				//contact
 				'email' => $this->getEmail(),
 				'phone' => $this->phone,
+				'externalId' => $this->externalId,
 			],
 			//billing address
 			$this->billingAddress ? $this->billingAddress->toArray() : [

@@ -50,6 +50,8 @@ class ProjectBuilder implements IBuilder
 	private $vatPayer = true;
 	/** @var bool */
 	private $active = true;
+	/** @var string|null */
+	private $externalId;
 
 	/**
 	 * @param string $title
@@ -348,6 +350,24 @@ class ProjectBuilder implements IBuilder
 	public function active(bool $active = true)
 	{
 		$this->active = $active;
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getExternalId()
+	{
+		return $this->externalId;
+	}
+
+	/**
+	 * @param string|null $externalId
+	 * @return $this
+	 */
+	public function externalId(string $externalId = null)
+	{
+		$this->externalId = $externalId;
 		return $this;
 	}
 
