@@ -553,6 +553,21 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @param Project $project
+	 * @return bool
+	 */
+	public function isB2bSubproject(Project $project): bool
+	{
+		foreach ($this->getB2bProjects() as $b2bProject) {
+			if ($b2bProject->getId() === $project->getId()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * @return null|string
 	 */
 	public function getExternalId(): ?string
