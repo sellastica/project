@@ -81,9 +81,24 @@ class ProjectService
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Project\Entity\ProjectCollection|\Sellastica\Project\Entity\Project[]
 	 */
-	public function findAll(\Sellastica\Entity\Configuration $configuration = null): \Sellastica\Project\Entity\ProjectCollection
+	public function findAll(
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Project\Entity\ProjectCollection
 	{
 		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findAll($configuration);
+	}
+
+	/**
+	 * @param array $filter
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return \Sellastica\Project\Entity\ProjectCollection|\Sellastica\Project\Entity\Project[]
+	 */
+	public function findBy(
+		array $filter,
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Project\Entity\ProjectCollection
+	{
+		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findBy($filter, $configuration);
 	}
 
 	/**
