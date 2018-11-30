@@ -89,6 +89,17 @@ class ProjectService
 	}
 
 	/**
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return \Sellastica\Project\Entity\ProjectCollection|\Sellastica\Project\Entity\Project[]
+	 */
+	public function findActive(
+		\Sellastica\Entity\Configuration $configuration = null
+	): \Sellastica\Project\Entity\ProjectCollection
+	{
+		return $this->findBy(['active' => true], $configuration);
+	}
+
+	/**
 	 * @param array $filter
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Project\Entity\ProjectCollection|\Sellastica\Project\Entity\Project[]
