@@ -111,38 +111,4 @@ class ProjectService
 	{
 		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findBy($filter, $configuration);
 	}
-
-	/**
-	 * @param \Sellastica\Project\Entity\Project $project
-	 * @return null|\Sellastica\CatalogSupplier\Entity\CatalogFeedProject
-	 */
-	public function findLastDownloadFromSupplier(
-		\Sellastica\Project\Entity\Project $project
-	): ?\Sellastica\CatalogSupplier\Entity\CatalogFeedProject
-	{
-		return $this->em->getRepository(\Sellastica\CatalogSupplier\Entity\CatalogFeedProject::class)->findOneBy(
-			[
-				'projectId' => $project->getId(),
-				'supplierDownload' => 1,
-			],
-			\Sellastica\Entity\Configuration::sortBy('created', false)
-		);
-	}
-
-	/**
-	 * @param \Sellastica\Project\Entity\Project $project
-	 * @return null|\Sellastica\CatalogSupplier\Entity\CatalogFeedProject
-	 */
-	public function findLastDownloadFromNapojSe(
-		\Sellastica\Project\Entity\Project $project
-	): ?\Sellastica\CatalogSupplier\Entity\CatalogFeedProject
-	{
-		return $this->em->getRepository(\Sellastica\CatalogSupplier\Entity\CatalogFeedProject::class)->findOneBy(
-			[
-				'projectId' => $project->getId(),
-				'supplierDownload' => 0,
-			],
-			\Sellastica\Entity\Configuration::sortBy('created', false)
-		);
-	}
 }
