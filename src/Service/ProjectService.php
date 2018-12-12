@@ -78,6 +78,36 @@ class ProjectService
 	}
 
 	/**
+	 * @param array $filter
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return null|\Sellastica\Project\Entity\Project
+	 */
+	public function findOneBy(
+		array $filter,
+		\Sellastica\Entity\Configuration $configuration = null
+	): ?\Sellastica\Project\Entity\Project
+	{
+		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findOneBy(
+			$filter, $configuration
+		);
+	}
+
+	/**
+	 * @param string $email
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @return null|\Sellastica\Project\Entity\Project
+	 */
+	public function findOneByEmail(
+		string $email,
+		\Sellastica\Entity\Configuration $configuration = null
+	): ?\Sellastica\Project\Entity\Project
+	{
+		return $this->findOneBy(
+			['email' => $email], $configuration
+		);
+	}
+
+	/**
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Project\Entity\ProjectCollection|\Sellastica\Project\Entity\Project[]
 	 */
