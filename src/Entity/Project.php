@@ -84,6 +84,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $active = true;
 	/** @var string|null @optional */
 	private $externalId;
+	/** @var float @optional */
+	private $percentDiscount = 0;
 
 	/** @var InternalProjectSpecifics */
 	private $internalProjectSpecifics;
@@ -161,6 +163,14 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public function getCurrency(): \Sellastica\Localization\Model\Currency
 	{
 		return \Sellastica\Localization\Model\Currency::from($this->currencyCode);
+	}
+
+	/**
+	 * @param \Sellastica\Localization\Model\Currency $currency
+	 */
+	public function setCurrency(\Sellastica\Localization\Model\Currency $currency): void
+	{
+		$this->currencyCode = $currency->getCode();
 	}
 
 	/**
@@ -584,6 +594,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return float
+	 */
+	public function getPercentDiscount(): float
+	{
+		return $this->percentDiscount;
+	}
+
+	/**
+	 * @param float $percentDiscount
+	 */
+	public function setPercentDiscount(float $percentDiscount): void
+	{
+		$this->percentDiscount = $percentDiscount;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -611,6 +637,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'email' => $this->getEmail(),
 				'phone' => $this->phone,
 				'externalId' => $this->externalId,
+				'percentDiscount' => $this->percentDiscount,
 			],
 			//billing address
 			$this->billingAddress ? $this->billingAddress->toArray() : [

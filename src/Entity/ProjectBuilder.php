@@ -52,6 +52,8 @@ class ProjectBuilder implements IBuilder
 	private $active = true;
 	/** @var string|null */
 	private $externalId;
+	/** @var float */
+	private $percentDiscount = 0;
 
 	/**
 	 * @param string $title
@@ -368,6 +370,24 @@ class ProjectBuilder implements IBuilder
 	public function externalId(string $externalId = null)
 	{
 		$this->externalId = $externalId;
+		return $this;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getPercentDiscount(): float
+	{
+		return $this->percentDiscount;
+	}
+
+	/**
+	 * @param float $percentDiscount
+	 * @return $this
+	 */
+	public function percentDiscount(float $percentDiscount)
+	{
+		$this->percentDiscount = $percentDiscount;
 		return $this;
 	}
 
