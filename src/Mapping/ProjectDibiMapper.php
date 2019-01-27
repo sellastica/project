@@ -43,4 +43,36 @@ class ProjectDibiMapper extends DibiMapper
 			->where('jobId = %i', $jobId)
 			->fetchPairs();
 	}
+
+	/**
+	 * @param \Sellastica\Entity\Configuration|null $configuration
+	 * @param \Sellastica\DataGrid\Model\FilterRuleCollection|null $rules
+	 * @return \Dibi\Fluent
+	 */
+	protected function getAdminResource(
+		\Sellastica\Entity\Configuration $configuration = null,
+		\Sellastica\DataGrid\Model\FilterRuleCollection $rules = null
+	): \Dibi\Fluent
+	{
+		$resource = parent::getAdminResource($configuration);
+		if ($rules) {
+			//invoice
+			if ($rules['invoice']) {
+				$resource->innerJoin('invoice')
+					->on('invoice.projectId = %n.id', $this->getTableName())
+					->where('invoice.proforma = 1')
+					->where('invoice.cancelled = 0');
+				switch ($rules['invoice']->getValue()) {
+					case \App\UI\Admin\Components\ProjectsListFilter::INVOICE_PAID:
+						$resource->where('invoice.paidAmount > 0');
+						break;
+					case \App\UI\Admin\Components\ProjectsListFilter::INVOICE_UNPAID:
+						$resource->where('invoice.paidAmount = 0');
+						break;
+				}
+			}
+		}
+
+		return $resource;
+	}
 }
