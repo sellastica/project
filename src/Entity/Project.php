@@ -23,6 +23,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 {
 	use TAbstractEntity;
 
+	const SUSPEND_AFTER_DAYS = 14;
+
 	/** @var string @required */
 	private $title;
 
@@ -82,6 +84,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $vatPayer = true;
 	/** @var bool @optional */
 	private $active = true;
+	/** @var bool @optional */
+	private $suspended = false;
 	/** @var string|null @optional */
 	private $externalId;
 	/** @var float @optional */
@@ -522,6 +526,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isSuspended(): bool
+	{
+		return $this->suspended;
+	}
+
+	/**
+	 * @param bool $suspended
+	 */
+	public function setSuspended(bool $suspended): void
+	{
+		$this->suspended = $suspended;
+	}
+
+	/**
 	 * @return int|null
 	 */
 	public function getParentProjectId(): ?int
@@ -632,6 +652,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'b2c' => $this->b2c,
 				'vatPayer' => $this->vatPayer,
 				'active' => $this->active,
+				'suspended' => $this->suspended,
 				'parentProjectId' => $this->parentProjectId,
 				//contact
 				'email' => $this->getEmail(),

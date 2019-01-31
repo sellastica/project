@@ -3,8 +3,6 @@ namespace Sellastica\Project\Service;
 
 class ProjectService
 {
-	const SUSPEND_AFTER_DAYS = 14;
-
 	/** @var \Sellastica\Entity\EntityManager */
 	private $em;
 	/** @var \Sellastica\Crm\Entity\Invoice\Service\InvoiceService */
@@ -149,19 +147,5 @@ class ProjectService
 	): \Sellastica\Project\Entity\ProjectCollection
 	{
 		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findBy($filter, $configuration);
-	}
-
-	/**
-	 * @param \Sellastica\Project\Entity\Project $project
-	 * @return bool
-	 */
-	public function isProjectSuspended(\Sellastica\Project\Entity\Project $project): bool
-	{
-		if (($unpaidInvoice = $this->invoiceService->findLongestUnpaidInvoice($project->getId()))
-			&& $unpaidInvoice->getDaysCountAfterDueDate() > self::SUSPEND_AFTER_DAYS) {
-			return true;
-		}
-
-		return false;
 	}
 }

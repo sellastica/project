@@ -50,6 +50,8 @@ class ProjectBuilder implements IBuilder
 	private $vatPayer = true;
 	/** @var bool */
 	private $active = true;
+	/** @var bool */
+	private $suspended = false;
 	/** @var string|null */
 	private $externalId;
 	/** @var float */
@@ -352,6 +354,24 @@ class ProjectBuilder implements IBuilder
 	public function active(bool $active = true)
 	{
 		$this->active = $active;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getSuspended(): bool
+	{
+		return $this->suspended;
+	}
+
+	/**
+	 * @param bool $suspended
+	 * @return $this
+	 */
+	public function suspended(bool $suspended)
+	{
+		$this->suspended = $suspended;
 		return $this;
 	}
 
