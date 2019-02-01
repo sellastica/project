@@ -56,6 +56,8 @@ class ProjectBuilder implements IBuilder
 	private $externalId;
 	/** @var float */
 	private $percentDiscount = 0;
+	/** @var \Sellastica\Crm\Model\AccountingPeriod */
+	private $accountingPeriod;
 
 	/**
 	 * @param string $title
@@ -408,6 +410,24 @@ class ProjectBuilder implements IBuilder
 	public function percentDiscount(float $percentDiscount)
 	{
 		$this->percentDiscount = $percentDiscount;
+		return $this;
+	}
+
+	/**
+	 * @return \Sellastica\Crm\Model\AccountingPeriod
+	 */
+	public function getAccountingPeriod(): \Sellastica\Crm\Model\AccountingPeriod
+	{
+		return $this->accountingPeriod;
+	}
+
+	/**
+	 * @param \Sellastica\Crm\Model\AccountingPeriod $accountingPeriod
+	 * @return $this
+	 */
+	public function accountingPeriod(\Sellastica\Crm\Model\AccountingPeriod $accountingPeriod)
+	{
+		$this->accountingPeriod = $accountingPeriod;
 		return $this;
 	}
 

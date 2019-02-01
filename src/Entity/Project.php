@@ -90,6 +90,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $externalId;
 	/** @var float @optional */
 	private $percentDiscount = 0;
+	/** @var \Sellastica\Crm\Model\AccountingPeriod @optional */
+	private $accountingPeriod;
 
 	/** @var InternalProjectSpecifics */
 	private $internalProjectSpecifics;
@@ -101,6 +103,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public function __construct(ProjectBuilder $builder)
 	{
 		$this->hydrate($builder);
+		$this->accountingPeriod = $this->accountingPeriod ?? \Sellastica\Crm\Model\AccountingPeriod::monthly();
 	}
 
 	/**
@@ -630,6 +633,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return \Sellastica\Crm\Model\AccountingPeriod
+	 */
+	public function getAccountingPeriod(): \Sellastica\Crm\Model\AccountingPeriod
+	{
+		return $this->accountingPeriod;
+	}
+
+	/**
+	 * @param \Sellastica\Crm\Model\AccountingPeriod $accountingPeriod
+	 */
+	public function setAccountingPeriod(\Sellastica\Crm\Model\AccountingPeriod $accountingPeriod): void
+	{
+		$this->accountingPeriod = $accountingPeriod;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -659,6 +678,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'phone' => $this->phone,
 				'externalId' => $this->externalId,
 				'percentDiscount' => $this->percentDiscount,
+				'accountingPeriod' => $this->accountingPeriod->getPeriod(),
 			],
 			//billing address
 			$this->billingAddress ? $this->billingAddress->toArray() : [

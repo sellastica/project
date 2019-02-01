@@ -42,6 +42,7 @@ class ProjectDao extends Dao
 	 */
 	protected function getBuilder($data, $first = null, $second = null): IBuilder
 	{
+		$data->accountingPeriod = \Sellastica\Crm\Model\AccountingPeriod::from($data->accountingPeriod);
 		$billingAddress = \Sellastica\Identity\Model\BillingAddress::fromArray((array)$data);
 		return \Sellastica\Project\Entity\ProjectBuilder::create(
 			$data->title,
