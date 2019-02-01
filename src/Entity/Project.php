@@ -84,8 +84,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $vatPayer = true;
 	/** @var bool @optional */
 	private $active = true;
-	/** @var bool @optional */
-	private $suspended = false;
+	/** @var \DateTime|null @optional */
+	private $suspended = null;
 	/** @var string|null @optional */
 	private $externalId;
 	/** @var float @optional */
@@ -526,17 +526,17 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
-	 * @return bool
+	 * @return \DateTime|null
 	 */
-	public function isSuspended(): bool
+	public function getSuspended(): ?\DateTime
 	{
 		return $this->suspended;
 	}
 
 	/**
-	 * @param bool $suspended
+	 * @param \DateTime|null $suspended
 	 */
-	public function setSuspended(bool $suspended): void
+	public function setSuspended(?\DateTime $suspended): void
 	{
 		$this->suspended = $suspended;
 	}

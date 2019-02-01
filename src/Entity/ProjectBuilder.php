@@ -50,8 +50,8 @@ class ProjectBuilder implements IBuilder
 	private $vatPayer = true;
 	/** @var bool */
 	private $active = true;
-	/** @var bool */
-	private $suspended = false;
+	/** @var \DateTime|null */
+	private $suspended;
 	/** @var string|null */
 	private $externalId;
 	/** @var float */
@@ -358,18 +358,18 @@ class ProjectBuilder implements IBuilder
 	}
 
 	/**
-	 * @return bool
+	 * @return \DateTime|null
 	 */
-	public function getSuspended(): bool
+	public function getSuspended()
 	{
 		return $this->suspended;
 	}
 
 	/**
-	 * @param bool $suspended
+	 * @param \DateTime|null $suspended
 	 * @return $this
 	 */
-	public function suspended(bool $suspended)
+	public function suspended(\DateTime $suspended = null)
 	{
 		$this->suspended = $suspended;
 		return $this;
