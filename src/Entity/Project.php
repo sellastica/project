@@ -84,6 +84,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $vatPayer = true;
 	/** @var bool @optional */
 	private $active = true;
+	/** @var bool @optional */
+	private $freeOfCharge = false;
 	/** @var \DateTime|null @optional */
 	private $suspended = null;
 	/** @var string|null @optional */
@@ -649,6 +651,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isFreeOfCharge(): bool
+	{
+		return $this->freeOfCharge;
+	}
+
+	/**
+	 * @param bool $freeOfCharge
+	 */
+	public function setFreeOfCharge(bool $freeOfCharge): void
+	{
+		$this->freeOfCharge = $freeOfCharge;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -671,6 +689,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'b2c' => $this->b2c,
 				'vatPayer' => $this->vatPayer,
 				'active' => $this->active,
+				'freeOfCharge' => $this->freeOfCharge,
 				'suspended' => $this->suspended,
 				'parentProjectId' => $this->parentProjectId,
 				//contact

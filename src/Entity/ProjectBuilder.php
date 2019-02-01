@@ -50,6 +50,8 @@ class ProjectBuilder implements IBuilder
 	private $vatPayer = true;
 	/** @var bool */
 	private $active = true;
+	/** @var bool */
+	private $freeOfCharge = false;
 	/** @var \DateTime|null */
 	private $suspended;
 	/** @var string|null */
@@ -356,6 +358,24 @@ class ProjectBuilder implements IBuilder
 	public function active(bool $active = true)
 	{
 		$this->active = $active;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getFreeOfCharge(): bool
+	{
+		return $this->freeOfCharge;
+	}
+
+	/**
+	 * @param bool $freeOfCharge
+	 * @return $this
+	 */
+	public function freeOfCharge(bool $freeOfCharge)
+	{
+		$this->freeOfCharge = $freeOfCharge;
 		return $this;
 	}
 
