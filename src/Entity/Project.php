@@ -64,6 +64,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 
 	/** @var Email @required */
 	private $email;
+	/** @var Email|null @optional */
+	private $invoiceEmail;
 	/** @var string|null @optional */
 	private $phone;
 	/** @var \Sellastica\Identity\Model\BillingAddress|null @optional */
@@ -197,6 +199,27 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public function setEmail(Email $email)
 	{
 		$this->email = $email;
+	}
+
+	/**
+	 * @param bool $object
+	 * @return Email|string|null
+	 */
+	public function getInvoiceEmail(bool $object = false)
+	{
+		if (!$this->invoiceEmail) {
+			return null;
+		}
+
+		return $object ? $this->invoiceEmail : $this->invoiceEmail->getEmail();
+	}
+
+	/**
+	 * @param Email|null $invoiceEmail
+	 */
+	public function setInvoiceEmail(?Email $invoiceEmail): void
+	{
+		$this->invoiceEmail = $invoiceEmail;
 	}
 
 	/**
@@ -694,6 +717,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'parentProjectId' => $this->parentProjectId,
 				//contact
 				'email' => $this->getEmail(),
+				'invoiceEmail' => $this->getInvoiceEmail(),
 				'phone' => $this->phone,
 				'externalId' => $this->externalId,
 				'percentDiscount' => $this->percentDiscount,

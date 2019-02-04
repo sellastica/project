@@ -40,6 +40,8 @@ class ProjectBuilder implements IBuilder
 	private $b2b = false;
 	/** @var bool */
 	private $b2c = true;
+	/** @var Email|null */
+	private $invoiceEmail;
 	/** @var string|null */
 	private $phone;
 	/** @var \Sellastica\Identity\Model\BillingAddress|null */
@@ -268,6 +270,24 @@ class ProjectBuilder implements IBuilder
 	public function b2c(bool $b2c = true)
 	{
 		$this->b2c = $b2c;
+		return $this;
+	}
+
+	/**
+	 * @return Email|null
+	 */
+	public function getInvoiceEmail()
+	{
+		return $this->invoiceEmail;
+	}
+
+	/**
+	 * @param Email|null $invoiceEmail
+	 * @return $this
+	 */
+	public function invoiceEmail(Email $invoiceEmail = null)
+	{
+		$this->invoiceEmail = $invoiceEmail;
 		return $this;
 	}
 
