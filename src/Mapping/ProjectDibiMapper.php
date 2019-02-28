@@ -71,6 +71,15 @@ class ProjectDibiMapper extends DibiMapper
 						break;
 				}
 			}
+
+			//suspended
+			if ($rules['suspended']) {
+				if ($rules['suspended']->getValue()) {
+					$resource->where('suspended IS NOT NULL');
+				} else {
+					$resource->where('suspended IS NULL');
+				}
+			}
 		}
 
 		return $resource;
