@@ -60,6 +60,8 @@ class ProjectBuilder implements IBuilder
 	private $externalId;
 	/** @var float */
 	private $percentDiscount = 0;
+	/** @var string */
+	private $tariffLevel;
 	/** @var \Sellastica\Crm\Model\AccountingPeriod */
 	private $accountingPeriod;
 
@@ -450,6 +452,24 @@ class ProjectBuilder implements IBuilder
 	public function percentDiscount(float $percentDiscount)
 	{
 		$this->percentDiscount = $percentDiscount;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTariffLevel(): string
+	{
+		return $this->tariffLevel;
+	}
+
+	/**
+	 * @param string $tariffLevel
+	 * @return $this
+	 */
+	public function tariffLevel(string $tariffLevel)
+	{
+		$this->tariffLevel = $tariffLevel;
 		return $this;
 	}
 
