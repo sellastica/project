@@ -94,6 +94,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $externalId;
 	/** @var float @optional */
 	private $percentDiscount = 0;
+	/** @var string @optional */
+	private $tariffLevel;
 	/** @var \Sellastica\Crm\Model\AccountingPeriod @optional */
 	private $accountingPeriod;
 
@@ -108,6 +110,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	{
 		$this->hydrate($builder);
 		$this->accountingPeriod = $this->accountingPeriod ?? \Sellastica\Crm\Model\AccountingPeriod::monthly();
+		$this->tariffLevel = $this->tariffLevel ?? \Sellastica\Crm\Model\TariffLevel::PROFI;
 	}
 
 	/**
@@ -690,6 +693,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getTariffLevel(): string
+	{
+		return $this->tariffLevel;
+	}
+
+	/**
+	 * @param string $tariffLevel
+	 */
+	public function setTariffLevel(string $tariffLevel): void
+	{
+		$this->tariffLevel = $tariffLevel;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -722,6 +741,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'externalId' => $this->externalId,
 				'percentDiscount' => $this->percentDiscount,
 				'accountingPeriod' => $this->accountingPeriod->getPeriod(),
+				'tariffLevel' => $this->tariffLevel,
 			],
 			//billing address
 			$this->billingAddress ? $this->billingAddress->toArray() : [
