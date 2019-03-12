@@ -64,6 +64,8 @@ class ProjectBuilder implements IBuilder
 	private $tariffLevel;
 	/** @var \Sellastica\Crm\Model\AccountingPeriod */
 	private $accountingPeriod;
+	/** @var string|null */
+	private $platform;
 
 	/**
 	 * @param string $title
@@ -488,6 +490,24 @@ class ProjectBuilder implements IBuilder
 	public function accountingPeriod(\Sellastica\Crm\Model\AccountingPeriod $accountingPeriod)
 	{
 		$this->accountingPeriod = $accountingPeriod;
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getPlatform()
+	{
+		return $this->platform;
+	}
+
+	/**
+	 * @param string|null $platform
+	 * @return $this
+	 */
+	public function platform(string $platform = null)
+	{
+		$this->platform = $platform;
 		return $this;
 	}
 

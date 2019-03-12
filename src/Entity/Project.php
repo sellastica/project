@@ -98,6 +98,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $tariffLevel;
 	/** @var \Sellastica\Crm\Model\AccountingPeriod @optional */
 	private $accountingPeriod;
+	/** @var string|null @optional */
+	private $platform;
 
 	/** @var InternalProjectSpecifics */
 	private $internalProjectSpecifics;
@@ -709,6 +711,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return string|null
+	 */
+	public function getPlatform(): ?string
+	{
+		return $this->platform;
+	}
+
+	/**
+	 * @param string|null $platform
+	 */
+	public function setPlatform(?string $platform): void
+	{
+		$this->platform = $platform;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -734,6 +752,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'freeOfCharge' => $this->freeOfCharge,
 				'suspended' => $this->suspended,
 				'parentProjectId' => $this->parentProjectId,
+				'platform' => $this->platform,
 				//contact
 				'email' => $this->getEmail(),
 				'invoiceEmail' => $this->getInvoiceEmail(),
