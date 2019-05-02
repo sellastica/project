@@ -8,8 +8,6 @@ use Sellastica\Entity\Entity\TAbstractEntity;
 /**
  * @generate-builder
  * @see GlobalSettingBuilder
- *
- * @attach(false)
  */
 class GlobalSetting extends AbstractEntity implements IEntity
 {
