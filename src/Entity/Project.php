@@ -36,6 +36,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $host;
 	/** @var string|null @optional */
 	private $database;
+	/** @var string|null @optional */
+	private $debugModeDatabase;
 
 	/** @var string @required */
 	private $localizationCode;
@@ -321,6 +323,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public function setDatabase(?string $database): void
 	{
 		$this->database = $database;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getDebugModeDatabase(): ?string
+	{
+		return $this->debugModeDatabase;
+	}
+
+	/**
+	 * @param string|null $debugModeDatabase
+	 */
+	public function setDebugModeDatabase(?string $debugModeDatabase): void
+	{
+		$this->debugModeDatabase = $debugModeDatabase;
 	}
 
 	/**
@@ -740,6 +758,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'www' => $this->www,
 				'host' => $this->host,
 				'database' => $this->database,
+				'debugModeDatabase' => $this->debugModeDatabase,
 				'localizationCode' => $this->localizationCode,
 				'currencyCode' => $this->currencyCode,
 				'note' => $this->note,

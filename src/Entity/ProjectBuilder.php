@@ -28,6 +28,8 @@ class ProjectBuilder implements IBuilder
 	private $email;
 	/** @var string|null */
 	private $database;
+	/** @var string|null */
+	private $debugModeDatabase;
 	/** @var int|null */
 	private $groupId;
 	/** @var int|null */
@@ -166,6 +168,24 @@ class ProjectBuilder implements IBuilder
 	public function database(string $database = null)
 	{
 		$this->database = $database;
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getDebugModeDatabase()
+	{
+		return $this->debugModeDatabase;
+	}
+
+	/**
+	 * @param string|null $debugModeDatabase
+	 * @return $this
+	 */
+	public function debugModeDatabase(string $debugModeDatabase = null)
+	{
+		$this->debugModeDatabase = $debugModeDatabase;
 		return $this;
 	}
 
