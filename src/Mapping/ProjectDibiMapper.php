@@ -72,12 +72,29 @@ class ProjectDibiMapper extends DibiMapper
 				}
 			}
 
+			//billing address
+			if ($rules['billing_address']) {
+				$resource->where('(company IS NULL AND firstName IS NULL AND lastName IS NULL)');
+			}
+
 			//suspended
 			if ($rules['suspended']) {
 				if ($rules['suspended']->getValue()) {
 					$resource->where('suspended IS NOT NULL');
 				} else {
 					$resource->where('suspended IS NULL');
+				}
+			}
+
+			//tariff history
+			if ($rules['tariff_history']) {
+				if ($rules['tariff_history']->getValue()) {
+					$resource->innerJoin('tariff_history')
+						->on('tariff_history.projectId = %n.id', $this->getTableName());
+				} else {
+					$resource->leftJoin('tariff_history')
+						->on('tariff_history.projectId = %n.id', $this->getTableName())
+						->where('tariff_history.id IS NULL');
 				}
 			}
 		}
