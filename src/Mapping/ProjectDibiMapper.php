@@ -56,12 +56,16 @@ class ProjectDibiMapper extends DibiMapper
 	{
 		$resource = parent::getAdminResource($configuration);
 		if ($rules) {
-			//invoice
-			if ($rules['invoice']) {
+			if ($rules['invoice']
+				|| $rules['payment_date']) {
 				$resource->innerJoin('invoice')
 					->on('invoice.projectId = %n.id', $this->getTableName())
 					->where('invoice.proforma = 1')
 					->where('invoice.cancelled = 0');
+			}
+
+			//invoice
+			if ($rules['invoice']) {
 				switch ($rules['invoice']->getValue()) {
 					case \App\UI\Admin\Components\ProjectsListFilter::INVOICE_PAID:
 						$resource->where('invoice.paidAmount > 0');
@@ -70,6 +74,11 @@ class ProjectDibiMapper extends DibiMapper
 						$resource->where('invoice.paidAmount = 0');
 						break;
 				}
+			}
+
+			//payment_date
+			if ($rules['payment_date']) {
+				$resource->where('invoice.paymentDate >= %d', \Nette\Utils\DateTime::createFromFormat('j.n.Y', $rules['payment_date']->getValue()));
 			}
 
 			//billing address
