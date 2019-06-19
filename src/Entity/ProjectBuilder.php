@@ -68,6 +68,8 @@ class ProjectBuilder implements IBuilder
 	private $accountingPeriod;
 	/** @var string|null */
 	private $platform;
+	/** @var bool */
+	private $betaAdmin = false;
 
 	/**
 	 * @param string $title
@@ -528,6 +530,24 @@ class ProjectBuilder implements IBuilder
 	public function platform(string $platform = null)
 	{
 		$this->platform = $platform;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getBetaAdmin(): bool
+	{
+		return $this->betaAdmin;
+	}
+
+	/**
+	 * @param bool $betaAdmin
+	 * @return $this
+	 */
+	public function betaAdmin(bool $betaAdmin)
+	{
+		$this->betaAdmin = $betaAdmin;
 		return $this;
 	}
 

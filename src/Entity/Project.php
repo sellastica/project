@@ -102,6 +102,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $accountingPeriod;
 	/** @var string|null @optional */
 	private $platform;
+	/** @var bool @optional */
+	private $betaAdmin = false;
 
 	/** @var InternalProjectSpecifics */
 	private $internalProjectSpecifics;
@@ -745,6 +747,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isBetaAdmin(): bool
+	{
+		return $this->betaAdmin;
+	}
+
+	/**
+	 * @param bool $betaAdmin
+	 */
+	public function setBetaAdmin(bool $betaAdmin): void
+	{
+		$this->betaAdmin = $betaAdmin;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -772,6 +790,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'suspended' => $this->suspended,
 				'parentProjectId' => $this->parentProjectId,
 				'platform' => $this->platform,
+				'betaAdmin' => $this->betaAdmin,
 				//contact
 				'email' => $this->getEmail(),
 				'invoiceEmail' => $this->getInvoiceEmail(),
