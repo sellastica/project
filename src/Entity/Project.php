@@ -103,7 +103,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	/** @var string|null @optional */
 	private $platform;
 	/** @var bool @optional */
-	private $betaAdmin = false;
+	private $betaAdmin = true;
 
 	/** @var InternalProjectSpecifics */
 	private $internalProjectSpecifics;
