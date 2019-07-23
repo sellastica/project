@@ -69,7 +69,7 @@ class ProjectBuilder implements IBuilder
 	/** @var string|null */
 	private $platform;
 	/** @var bool */
-	private $betaAdmin = false;
+	private $betaAdmin = true;
 
 	/**
 	 * @param string $title
@@ -545,7 +545,7 @@ class ProjectBuilder implements IBuilder
 	 * @param bool $betaAdmin
 	 * @return $this
 	 */
-	public function betaAdmin(bool $betaAdmin)
+	public function betaAdmin(bool $betaAdmin = true)
 	{
 		$this->betaAdmin = $betaAdmin;
 		return $this;
