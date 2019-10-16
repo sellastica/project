@@ -67,10 +67,10 @@ class ProjectDibiMapper extends DibiMapper
 			//invoice
 			if ($rules['invoice']) {
 				switch ($rules['invoice']->getValue()) {
-					case \App\UI\Admin\Components\ProjectsListFilter::INVOICE_PAID:
+					case 'paid':
 						$resource->where('invoice.paidAmount > 0');
 						break;
-					case \App\UI\Admin\Components\ProjectsListFilter::INVOICE_UNPAID:
+					case 'unpaid':
 						$resource->where('invoice.paidAmount = 0');
 						break;
 				}
