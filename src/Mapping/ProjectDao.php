@@ -44,6 +44,9 @@ class ProjectDao extends Dao
 	{
 		$data->invoiceEmail = !empty($data->invoiceEmail) ? new Email($data->invoiceEmail) : null;
 		$data->accountingPeriod = \Sellastica\Crm\Model\AccountingPeriod::from($data->accountingPeriod);
+		$data->platform = !empty($data->platform)
+			? \Sellastica\Project\Model\Platform::from($data->platform)
+			: \Sellastica\Project\Model\Platform::other();
 		$billingAddress = \Sellastica\Identity\Model\BillingAddress::fromArray((array)$data);
 
 		return \Sellastica\Project\Entity\ProjectBuilder::create(

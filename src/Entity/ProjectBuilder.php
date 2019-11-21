@@ -66,8 +66,10 @@ class ProjectBuilder implements IBuilder
 	private $tariffLevel;
 	/** @var \Sellastica\Crm\Model\AccountingPeriod */
 	private $accountingPeriod;
-	/** @var string|null */
+	/** @var \Sellastica\Project\Model\Platform */
 	private $platform;
+	/** @var bool */
+	private $api = false;
 	/** @var bool */
 	private $betaAdmin = true;
 
@@ -516,20 +518,38 @@ class ProjectBuilder implements IBuilder
 	}
 
 	/**
-	 * @return string|null
+	 * @return \Sellastica\Project\Model\Platform
 	 */
-	public function getPlatform()
+	public function getPlatform(): \Sellastica\Project\Model\Platform
 	{
 		return $this->platform;
 	}
 
 	/**
-	 * @param string|null $platform
+	 * @param \Sellastica\Project\Model\Platform $platform
 	 * @return $this
 	 */
-	public function platform(string $platform = null)
+	public function platform(\Sellastica\Project\Model\Platform $platform)
 	{
 		$this->platform = $platform;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getApi(): bool
+	{
+		return $this->api;
+	}
+
+	/**
+	 * @param bool $api
+	 * @return $this
+	 */
+	public function api(bool $api)
+	{
+		$this->api = $api;
 		return $this;
 	}
 

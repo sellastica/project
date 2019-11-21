@@ -100,8 +100,10 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $tariffLevel;
 	/** @var \Sellastica\Crm\Model\AccountingPeriod @optional */
 	private $accountingPeriod;
-	/** @var string|null @optional */
+	/** @var \Sellastica\Project\Model\Platform @optional */
 	private $platform;
+	/** @var bool @optional */
+	private $api = false;
 	/** @var bool @optional */
 	private $betaAdmin = true;
 
@@ -115,6 +117,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public function __construct(ProjectBuilder $builder)
 	{
 		$this->hydrate($builder);
+		$this->platform = $this->platform ?? \Sellastica\Project\Model\Platform::other();
 		$this->accountingPeriod = $this->accountingPeriod ?? \Sellastica\Crm\Model\AccountingPeriod::monthly();
 		$this->tariffLevel = $this->tariffLevel ?? \Sellastica\Crm\Model\TariffLevel::PROFI;
 	}
@@ -708,19 +711,35 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
-	 * @return string|null
+	 * @return \Sellastica\Project\Model\Platform
 	 */
-	public function getPlatform(): ?string
+	public function getPlatform(): \Sellastica\Project\Model\Platform
 	{
 		return $this->platform;
 	}
 
 	/**
-	 * @param string|null $platform
+	 * @param \Sellastica\Project\Model\Platform $platform
 	 */
-	public function setPlatform(?string $platform): void
+	public function setPlatform(\Sellastica\Project\Model\Platform $platform): void
 	{
 		$this->platform = $platform;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isApi(): bool
+	{
+		return $this->api;
+	}
+
+	/**
+	 * @param bool $api
+	 */
+	public function setApi(bool $api): void
+	{
+		$this->api = $api;
 	}
 
 	/**
@@ -766,7 +785,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'freeOfCharge' => $this->freeOfCharge,
 				'suspended' => $this->suspended,
 				'parentProjectId' => $this->parentProjectId,
-				'platform' => $this->platform,
+				'platform' => $this->platform->getValue(),
+				'api' => $this->isApi(),
 				'betaAdmin' => $this->betaAdmin,
 				//contact
 				'email' => $this->getEmail(),
