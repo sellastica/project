@@ -104,6 +104,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $platform;
 	/** @var bool @optional */
 	private $api = false;
+	/** @var int|null */
+	private $platformId;
 	/** @var bool @optional */
 	private $betaAdmin = true;
 
@@ -119,7 +121,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 		$this->hydrate($builder);
 		$this->platform = $this->platform ?? \Sellastica\Project\Model\Platform::other();
 		$this->accountingPeriod = $this->accountingPeriod ?? \Sellastica\Crm\Model\AccountingPeriod::monthly();
-		$this->tariffLevel = $this->tariffLevel ?? \Sellastica\Crm\Model\TariffLevel::PROFI;
+		$this->tariffLevel = $this->tariffLevel ?? \Sellastica\Crm\Model\TariffLevel::PROFI2;
 	}
 
 	/**
@@ -743,6 +745,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return int|null
+	 */
+	public function getPlatformId(): ?int
+	{
+		return $this->platformId;
+	}
+
+	/**
+	 * @param int|null $platformId
+	 */
+	public function setPlatformId(?int $platformId): void
+	{
+		$this->platformId = $platformId;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isBetaAdmin(): bool
@@ -786,7 +804,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'suspended' => $this->suspended,
 				'parentProjectId' => $this->parentProjectId,
 				'platform' => $this->platform->getValue(),
-				'api' => $this->isApi(),
+				'api' => $this->api,
+				'platformId' => $this->platformId,
 				'betaAdmin' => $this->betaAdmin,
 				//contact
 				'email' => $this->getEmail(),
