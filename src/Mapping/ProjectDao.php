@@ -43,6 +43,7 @@ class ProjectDao extends Dao
 	protected function getBuilder($data, $first = null, $second = null): IBuilder
 	{
 		$data->invoiceEmail = !empty($data->invoiceEmail) ? new Email($data->invoiceEmail) : null;
+		$data->invoiceEmailCopy = !empty($data->invoiceEmailCopy) ? new Email($data->invoiceEmailCopy) : null;
 		$data->accountingPeriod = \Sellastica\Crm\Model\AccountingPeriod::from($data->accountingPeriod);
 		$data->platform = !empty($data->platform)
 			? \Sellastica\Project\Model\Platform::from($data->platform)

@@ -38,12 +38,6 @@ class ProjectFactory extends EntityFactory
 	public function doInitialize(IEntity $entity)
 	{
 		$entity->setRelationService(new ProjectRelations($entity, $this->em));
-		$entity->doInitialize(
-			new \Project\Model\InternalProjectSpecifics(
-				$entity,
-				$this->proxyFactory
-			)
-		);
 	}
 
 	/**

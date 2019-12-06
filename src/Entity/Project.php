@@ -2,15 +2,11 @@
 namespace Sellastica\Project\Entity;
 
 use Nette\Http\Url;
-use Project\Model\InternalProjectSpecifics;
-use Sellastica\Api\Model\IPayloadable;
-use Sellastica\Entity\Configuration;
 use Sellastica\Entity\Entity\AbstractEntity;
 use Sellastica\Entity\Entity\IEntity;
 use Sellastica\Entity\Entity\TAbstractEntity;
 use Sellastica\Identity\Model\Email;
 use Sellastica\Localization\Model\Localization;
-use Sellastica\Twig\Model\IProxable;
 use Sellastica\Utils\Strings;
 
 /**
@@ -19,7 +15,7 @@ use Sellastica\Utils\Strings;
  *
  * @property ProjectRelations $relationService
  */
-class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable, \Sellastica\Entity\Entity\IAggregateRoot
+class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Entity\IAggregateRoot
 {
 	use TAbstractEntity;
 
@@ -68,17 +64,14 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $email;
 	/** @var Email|null @optional */
 	private $invoiceEmail;
+	/** @var Email|null @optional */
+	private $invoiceEmailCopy;
 	/** @var string|null @optional */
 	private $phone;
 	/** @var \Sellastica\Identity\Model\BillingAddress|null @optional */
 	private $billingAddress;
 	/** @var string|null @optional */
 	private $note;
-
-	/** @var \Core\Domain\Model\Store\StoreCollection|\Core\Domain\Model\Store\Store[] */
-	private $stores;
-	/** @var int */
-	private $storesCount;
 
 	/** @var Url */
 	private $defaultUrl;
@@ -111,9 +104,6 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	/** @var bool @optional */
 	private $wizard = false;
 
-	/** @var InternalProjectSpecifics */
-	private $internalProjectSpecifics;
-
 
 	/**
 	 * @param ProjectBuilder $builder
@@ -124,24 +114,6 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 		$this->platform = $this->platform ?? \Sellastica\Project\Model\Platform::other();
 		$this->accountingPeriod = $this->accountingPeriod ?? \Sellastica\Crm\Model\AccountingPeriod::monthly();
 		$this->tariffLevel = $this->tariffLevel ?? \Sellastica\Crm\Model\TariffLevel::PROFI2;
-	}
-
-	/**
-	 * @param InternalProjectSpecifics $internalProjectSpecifics
-	 */
-	public function doInitialize(
-		InternalProjectSpecifics $internalProjectSpecifics
-	)
-	{
-		$this->internalProjectSpecifics = $internalProjectSpecifics;
-	}
-
-	/**
-	 * @return InternalProjectSpecifics
-	 */
-	public function getInternalProjectSpecifics(): InternalProjectSpecifics
-	{
-		return $this->internalProjectSpecifics;
 	}
 
 	/**
@@ -236,6 +208,27 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	public function setInvoiceEmail(?Email $invoiceEmail): void
 	{
 		$this->invoiceEmail = $invoiceEmail;
+	}
+
+	/**
+	 * @param bool $object
+	 * @return Email|string|null
+	 */
+	public function getInvoiceEmailCopy(bool $object = false)
+	{
+		if (!$this->invoiceEmailCopy) {
+			return null;
+		}
+
+		return $object ? $this->invoiceEmailCopy : $this->invoiceEmailCopy->getEmail();
+	}
+
+	/**
+	 * @param Email|null $invoiceEmailCopy
+	 */
+	public function setInvoiceEmailCopy(?Email $invoiceEmailCopy): void
+	{
+		$this->invoiceEmailCopy = $invoiceEmailCopy;
 	}
 
 	/**
@@ -480,53 +473,11 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
-	 * @return \Theme\Theme\Entity\Theme|null
-	 */
-	public function getTheme(): ?\Theme\Theme\Entity\Theme
-	{
-		return $this->relationService->getTheme();
-	}
-
-	/**
-	 * @return \Theme\Theme\Entity\ThemeCollection
-	 */
-	public function getThemes(): \Theme\Theme\Entity\ThemeCollection
-	{
-		return $this->relationService->getThemes();
-	}
-
-	/**
 	 * @return bool If project has administration
 	 */
 	public function hasBackend(): bool
 	{
 		return $this->backend;
-	}
-
-	/**
-	 * @param Configuration $configuration
-	 * @param array $filters
-	 * @return \Core\Domain\Model\Store\Store[]
-	 */
-	public function getStores(Configuration $configuration = null, array $filters = [])
-	{
-		if (!isset($this->stores)) {
-			$this->stores = $this->relationService->getStores($configuration, $filters);
-		}
-
-		return $this->stores;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getStoresCount(): int
-	{
-		if (!isset($this->storesCount)) {
-			$this->storesCount = $this->relationService->getStoresCount();
-		}
-
-		return $this->storesCount;
 	}
 
 	/**
@@ -829,6 +780,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				//contact
 				'email' => $this->getEmail(),
 				'invoiceEmail' => $this->getInvoiceEmail(),
+				'invoiceEmailCopy' => $this->getInvoiceEmailCopy(),
 				'phone' => $this->phone,
 				'externalId' => $this->externalId,
 				'percentDiscount' => $this->percentDiscount,
@@ -844,24 +796,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'countryCode' => null,
 				'cin' => null,
 				'tin' => null,
-			],
-			$this->internalProjectSpecifics->toArray()
+			]
 		);
-	}
-
-	/**
-	 * @return \Sellastica\Twig\Model\ProxyObject
-	 */
-	public function toProxy()
-	{
-		return $this->internalProjectSpecifics->toProxy();
-	}
-
-	/**
-	 * @return \Sellastica\Api\Model\PayloadObject
-	 */
-	public function toPayloadObject()
-	{
-		return $this->internalProjectSpecifics->toPayloadObject();
 	}
 }
