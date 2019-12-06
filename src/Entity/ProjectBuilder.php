@@ -72,6 +72,8 @@ class ProjectBuilder implements IBuilder
 	private $api = false;
 	/** @var bool */
 	private $betaAdmin = true;
+	/** @var bool */
+	private $wizard = false;
 
 	/**
 	 * @param string $title
@@ -568,6 +570,24 @@ class ProjectBuilder implements IBuilder
 	public function betaAdmin(bool $betaAdmin = true)
 	{
 		$this->betaAdmin = $betaAdmin;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getWizard(): bool
+	{
+		return $this->wizard;
+	}
+
+	/**
+	 * @param bool $wizard
+	 * @return $this
+	 */
+	public function wizard(bool $wizard)
+	{
+		$this->wizard = $wizard;
 		return $this;
 	}
 

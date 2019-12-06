@@ -108,6 +108,8 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	private $platformId;
 	/** @var bool @optional */
 	private $betaAdmin = true;
+	/** @var bool @optional */
+	private $wizard = false;
 
 	/** @var InternalProjectSpecifics */
 	private $internalProjectSpecifics;
@@ -777,6 +779,22 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isWizard(): bool
+	{
+		return $this->wizard;
+	}
+
+	/**
+	 * @param bool $wizard
+	 */
+	public function setWizard(bool $wizard): void
+	{
+		$this->wizard = $wizard;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -807,6 +825,7 @@ class Project extends AbstractEntity implements IEntity, IProxable, IPayloadable
 				'api' => $this->api,
 				'platformId' => $this->platformId,
 				'betaAdmin' => $this->betaAdmin,
+				'wizard' => $this->wizard,
 				//contact
 				'email' => $this->getEmail(),
 				'invoiceEmail' => $this->getInvoiceEmail(),
