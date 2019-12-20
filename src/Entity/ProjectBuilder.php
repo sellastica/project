@@ -44,6 +44,8 @@ class ProjectBuilder implements IBuilder
 	private $b2c = true;
 	/** @var Email|null */
 	private $invoiceEmail;
+	/** @var Email|null */
+	private $invoiceEmailCopy;
 	/** @var string|null */
 	private $phone;
 	/** @var \Sellastica\Identity\Model\BillingAddress|null */
@@ -318,6 +320,24 @@ class ProjectBuilder implements IBuilder
 	public function invoiceEmail(Email $invoiceEmail = null)
 	{
 		$this->invoiceEmail = $invoiceEmail;
+		return $this;
+	}
+
+	/**
+	 * @return Email|null
+	 */
+	public function getInvoiceEmailCopy()
+	{
+		return $this->invoiceEmailCopy;
+	}
+
+	/**
+	 * @param Email|null $invoiceEmailCopy
+	 * @return $this
+	 */
+	public function invoiceEmailCopy(Email $invoiceEmailCopy = null)
+	{
+		$this->invoiceEmailCopy = $invoiceEmailCopy;
 		return $this;
 	}
 
