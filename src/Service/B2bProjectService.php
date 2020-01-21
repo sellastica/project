@@ -3,7 +3,8 @@ namespace Sellastica\Project\Service;
 
 class B2bProjectService
 {
-	const COMMISSION_RATIO = 0.2;
+	const COMMISSION_RATIO = 0.2,
+		MAX_COMMISSIONS_COUNT = 12;
 
 	/** @var ProjectService */
 	private $projectService;
@@ -25,16 +26,44 @@ class B2bProjectService
 	}
 
 	/**
-	 * @param \Sellastica\Project\Entity\Project $parentProject
 	 * @return \Sellastica\Project\Entity\ProjectCollection|\Sellastica\Project\Entity\Project[]
 	 */
-	public function getSubordinateProjects(
-		\Sellastica\Project\Entity\Project $parentProject
-	): \Sellastica\Project\Entity\ProjectCollection
+	public function findActiveB2BProjects(): \Sellastica\Project\Entity\ProjectCollection
+	{
+		return $this->projectService->findBy([
+			'b2b' => 1,
+			'active' => 1,
+			'suspended IS NULL',
+		]);
+	}
+
+	/**
+	 * @param int $parentProjectId
+	 * @return \Sellastica\Project\Entity\ProjectCollection|\Sellastica\Project\Entity\Project[]
+	 */
+	public function findSubordinateProjects(int $parentProjectId): \Sellastica\Project\Entity\ProjectCollection
 	{
 		return $this->projectService->findBy(
-			['parentProjectId' => $parentProject->getId()],
+			['parentProjectId' => $parentProjectId],
 			\Sellastica\Entity\Configuration::sortBy('title')
+		);
+	}
+
+	/**
+	 * @param int $projectId
+	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
+	 */
+	public function findCommissionableInvoices(int $projectId): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
+	{
+		return $this->invoiceService->findBy(
+			[
+				'projectId' => $projectId,
+				'mustPay' => 1,
+				'cancelled' => 0, //some cancelled invoices can be refunded
+				'paidAmount > 0',
+				'paidAmount >= priceToPay',
+			],
+			\Sellastica\Entity\Configuration::sortBy('created')
 		);
 	}
 }
