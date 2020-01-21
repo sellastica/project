@@ -30,4 +30,12 @@ class ProjectRepository extends Repository implements \Sellastica\Project\Entity
 	{
 		return $this->initialize($this->dao->findByJobId($jobId));
 	}
+
+	/**
+	 * @return int
+	 */
+	public function findBilledProjectsCount(): int
+	{
+		return $this->dao->findBilledProjectsCount();
+	}
 }

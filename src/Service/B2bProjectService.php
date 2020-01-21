@@ -3,7 +3,7 @@ namespace Sellastica\Project\Service;
 
 class B2bProjectService
 {
-	const COMMISSION_RATIO = 0.25;
+	const COMMISSION_RATIO = 0.2;
 
 	/** @var ProjectService */
 	private $projectService;

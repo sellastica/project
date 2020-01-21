@@ -30,11 +30,19 @@ class ProjectDao extends Dao
 
 	/**
 	 * @param int $jobId
-	 * @return ProjectCollection
+	 * @return ProjectCollection|EntityCollection
 	 */
 	public function findByJobId(int $jobId): ProjectCollection
 	{
 		return $this->getEntitiesFromCacheOrStorage($this->mapper->findByJobId($jobId));
+	}
+
+	/**
+	 * @return int
+	 */
+	public function findBilledProjectsCount(): int
+	{
+		return $this->mapper->findBilledProjectsCount();
 	}
 
 	/**

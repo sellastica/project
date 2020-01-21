@@ -489,11 +489,27 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	}
 
 	/**
+	 * @param bool $b2b
+	 */
+	public function setB2b(bool $b2b): void
+	{
+		$this->b2b = $b2b;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isB2c(): bool
 	{
 		return $this->b2c;
+	}
+
+	/**
+	 * @param bool $b2c
+	 */
+	public function setB2c(bool $b2c): void
+	{
+		$this->b2c = $b2c;
 	}
 
 	/**

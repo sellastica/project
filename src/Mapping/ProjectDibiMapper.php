@@ -33,6 +33,19 @@ class ProjectDibiMapper extends DibiMapper
 	}
 
 	/**
+	 * @return int
+	 */
+	public function findBilledProjectsCount(): int
+	{
+		return $this->database->select('COUNT(*)')
+			->from($this->database->select('COUNT(*)')
+				->from('%n.invoice', $this->environment->getCrmDatabaseName())
+				->groupBy('projectId')
+			)->as('tmp')
+			->fetchSingle();
+	}
+
+	/**
 	 * @param int $jobId
 	 * @return array
 	 */
@@ -105,6 +118,15 @@ class ProjectDibiMapper extends DibiMapper
 						->on('tariff_history.projectId = %n.id', $this->getTableName())
 						->where('tariff_history.id IS NULL');
 				}
+			}
+
+			//application
+			if ($rules['application']) {
+				$resource->innerJoin('app_project_rel')
+					->on('app_project_rel.projectId = %n.id', $this->getTableName())
+					->innerJoin('app')
+					->on('app.id = app_project_rel.applicationId')
+					->where('app.slug = %s', $rules['application']->getValue());
 			}
 		}
 
