@@ -148,4 +148,13 @@ class ProjectService
 	{
 		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findBy($filter, $configuration);
 	}
+
+	/**
+	 * @return int
+	 */
+	public function findBilledProjectsCount(): int
+	{
+		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)
+			->findBilledProjectsCount();
+	}
 }

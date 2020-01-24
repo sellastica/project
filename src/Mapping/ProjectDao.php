@@ -30,11 +30,19 @@ class ProjectDao extends Dao
 
 	/**
 	 * @param int $jobId
-	 * @return ProjectCollection
+	 * @return ProjectCollection|EntityCollection
 	 */
 	public function findByJobId(int $jobId): ProjectCollection
 	{
 		return $this->getEntitiesFromCacheOrStorage($this->mapper->findByJobId($jobId));
+	}
+
+	/**
+	 * @return int
+	 */
+	public function findBilledProjectsCount(): int
+	{
+		return $this->mapper->findBilledProjectsCount();
 	}
 
 	/**
@@ -48,6 +56,7 @@ class ProjectDao extends Dao
 		$data->platform = !empty($data->platform)
 			? \Sellastica\Project\Model\Platform::from($data->platform)
 			: \Sellastica\Project\Model\Platform::other();
+		$data->b2bPartnerStatus = \Sellastica\Project\Model\B2BPartnerStatus::from($data->b2bPartnerStatus);
 		$billingAddress = \Sellastica\Identity\Model\BillingAddress::fromArray((array)$data);
 
 		return \Sellastica\Project\Entity\ProjectBuilder::create(

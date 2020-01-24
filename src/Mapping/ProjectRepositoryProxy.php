@@ -23,4 +23,12 @@ class ProjectRepositoryProxy extends RepositoryProxy implements IProjectReposito
 	{
 		return $this->getRepository()->findByJobId($jobId);
 	}
+
+	/**
+	 * @return int
+	 */
+	public function findBilledProjectsCount(): int
+	{
+		return $this->getRepository()->findBilledProjectsCount();
+	}
 }

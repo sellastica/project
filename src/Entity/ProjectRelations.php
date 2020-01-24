@@ -63,10 +63,11 @@ class ProjectRelations implements IEntityRelations
 	}
 
 	/**
-	 * @return null|Project
+	 * @return \Sellastica\CatalogSupplier\Entity\B2bPartner\Entity\B2bPartner|null
 	 */
-	public function getParentProject(): ?Project
+	public function getB2bPartner(): ?\Sellastica\CatalogSupplier\Entity\B2bPartner\Entity\B2bPartner
 	{
-		return $this->em->getRepository(Project::class)->find($this->project->getParentProjectId());
+		return $this->em->getRepository(\Sellastica\CatalogSupplier\Entity\B2bPartner\Entity\B2bPartner::class)
+			->find($this->project->getB2bPartnerId());
 	}
 }

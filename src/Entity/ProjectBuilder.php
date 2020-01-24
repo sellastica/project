@@ -33,7 +33,9 @@ class ProjectBuilder implements IBuilder
 	/** @var int|null */
 	private $groupId;
 	/** @var int|null */
-	private $parentProjectId;
+	private $b2bPartnerId;
+	/** @var \Sellastica\Project\Model\B2BPartnerStatus */
+	private $b2bPartnerStatus;
 	/** @var int|null */
 	private $themeId;
 	/** @var bool */
@@ -44,6 +46,8 @@ class ProjectBuilder implements IBuilder
 	private $b2c = true;
 	/** @var Email|null */
 	private $invoiceEmail;
+	/** @var Email|null */
+	private $invoiceEmailCopy;
 	/** @var string|null */
 	private $phone;
 	/** @var \Sellastica\Identity\Model\BillingAddress|null */
@@ -216,18 +220,36 @@ class ProjectBuilder implements IBuilder
 	/**
 	 * @return int|null
 	 */
-	public function getParentProjectId()
+	public function getB2bPartnerId()
 	{
-		return $this->parentProjectId;
+		return $this->b2bPartnerId;
 	}
 
 	/**
-	 * @param int|null $parentProjectId
+	 * @param int|null $b2bPartnerId
 	 * @return $this
 	 */
-	public function parentProjectId(int $parentProjectId = null)
+	public function b2bPartnerId(int $b2bPartnerId = null)
 	{
-		$this->parentProjectId = $parentProjectId;
+		$this->b2bPartnerId = $b2bPartnerId;
+		return $this;
+	}
+
+	/**
+	 * @return \Sellastica\Project\Model\B2BPartnerStatus
+	 */
+	public function getB2bPartnerStatus(): \Sellastica\Project\Model\B2BPartnerStatus
+	{
+		return $this->b2bPartnerStatus;
+	}
+
+	/**
+	 * @param \Sellastica\Project\Model\B2BPartnerStatus $b2bPartnerStatus
+	 * @return $this
+	 */
+	public function b2bPartnerStatus(\Sellastica\Project\Model\B2BPartnerStatus $b2bPartnerStatus)
+	{
+		$this->b2bPartnerStatus = $b2bPartnerStatus;
 		return $this;
 	}
 
@@ -318,6 +340,24 @@ class ProjectBuilder implements IBuilder
 	public function invoiceEmail(Email $invoiceEmail = null)
 	{
 		$this->invoiceEmail = $invoiceEmail;
+		return $this;
+	}
+
+	/**
+	 * @return Email|null
+	 */
+	public function getInvoiceEmailCopy()
+	{
+		return $this->invoiceEmailCopy;
+	}
+
+	/**
+	 * @param Email|null $invoiceEmailCopy
+	 * @return $this
+	 */
+	public function invoiceEmailCopy(Email $invoiceEmailCopy = null)
+	{
+		$this->invoiceEmailCopy = $invoiceEmailCopy;
 		return $this;
 	}
 

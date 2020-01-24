@@ -46,9 +46,9 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	private $group;
 
 	/** @var int|null @optional */
-	private $parentProjectId;
-	/** @var Project|null */
-	private $parentProject;
+	private $b2bPartnerId;
+	/** @var \Sellastica\Project\Model\B2BPartnerStatus @optional */
+	private $b2bPartnerStatus;
 
 	/** @var int|null @optional */
 	private $themeId;
@@ -114,6 +114,7 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 		$this->platform = $this->platform ?? \Sellastica\Project\Model\Platform::other();
 		$this->accountingPeriod = $this->accountingPeriod ?? \Sellastica\Crm\Model\AccountingPeriod::monthly();
 		$this->tariffLevel = $this->tariffLevel ?? \Sellastica\Crm\Model\TariffLevel::PROFI2;
+		$this->b2bPartnerStatus = $this->b2bPartnerStatus ?? \Sellastica\Project\Model\B2BPartnerStatus::unconfirmed();
 	}
 
 	/**
@@ -489,11 +490,27 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	}
 
 	/**
+	 * @param bool $b2b
+	 */
+	public function setB2b(bool $b2b): void
+	{
+		$this->b2b = $b2b;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isB2c(): bool
 	{
 		return $this->b2c;
+	}
+
+	/**
+	 * @param bool $b2c
+	 */
+	public function setB2c(bool $b2c): void
+	{
+		$this->b2c = $b2c;
 	}
 
 	/**
@@ -555,34 +572,41 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	/**
 	 * @return int|null
 	 */
-	public function getParentProjectId(): ?int
+	public function getB2bPartnerId(): ?int
 	{
-		return $this->parentProjectId;
+		return $this->b2bPartnerId;
 	}
 
 	/**
-	 * @param int|null $parentProjectId
+	 * @param int|null $b2bPartnerId
 	 */
-	public function setParentProjectId(?int $parentProjectId): void
+	public function setB2bPartnerId(?int $b2bPartnerId): void
 	{
-		$this->parentProjectId = $parentProjectId;
+		$this->b2bPartnerId = $b2bPartnerId;
 	}
 
 	/**
-	 * @return null|Project
+	 * @return \Sellastica\CatalogSupplier\Entity\B2bPartner\Entity\B2bPartner|null
 	 */
-	public function getParentProject(): ?Project
+	public function getB2bPartner(): ?\Sellastica\CatalogSupplier\Entity\B2bPartner\Entity\B2bPartner
 	{
-		return $this->relationService->getParentProject();
+		return $this->relationService->getB2bPartner();
 	}
 
 	/**
-	 * @param null|Project $parentProject
+	 * @return \Sellastica\Project\Model\B2BPartnerStatus
 	 */
-	public function setParentProject(?Project $parentProject): void
+	public function getB2bPartnerStatus(): \Sellastica\Project\Model\B2BPartnerStatus
 	{
-		$this->parentProjectId = $parentProject->getId();
-		$this->parentProject = $parentProject;
+		return $this->b2bPartnerStatus;
+	}
+
+	/**
+	 * @param \Sellastica\Project\Model\B2BPartnerStatus $b2bPartnerStatus
+	 */
+	public function setB2bPartnerStatus(\Sellastica\Project\Model\B2BPartnerStatus $b2bPartnerStatus): void
+	{
+		$this->b2bPartnerStatus = $b2bPartnerStatus;
 	}
 
 	/**
@@ -771,7 +795,8 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 				'active' => $this->active,
 				'freeOfCharge' => $this->freeOfCharge,
 				'suspended' => $this->suspended,
-				'parentProjectId' => $this->parentProjectId,
+				'b2bPartnerId' => $this->b2bPartnerId,
+				'b2bPartnerStatus' => $this->b2bPartnerStatus->getValue(),
 				'platform' => $this->platform->getValue(),
 				'api' => $this->api,
 				'platformId' => $this->platformId,
