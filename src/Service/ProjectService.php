@@ -115,6 +115,17 @@ class ProjectService
 	}
 
 	/**
+	 * @param int $platformId
+	 * @return null|\Sellastica\Project\Entity\Project
+	 */
+	public function findOneByPlatformId(int $platformId): ?\Sellastica\Project\Entity\Project
+	{
+		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findOneBy([
+			'platformId' => $platformId,
+		]);
+	}
+
+	/**
 	 * @param \Sellastica\Entity\Configuration|null $configuration
 	 * @return \Sellastica\Project\Entity\ProjectCollection|\Sellastica\Project\Entity\Project[]
 	 */
@@ -147,6 +158,15 @@ class ProjectService
 	): \Sellastica\Project\Entity\ProjectCollection
 	{
 		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)->findBy($filter, $configuration);
+	}
+
+	/**
+	 * @param array $filter
+	 */
+	public function findCountBy(array $filter): int
+	{
+		return $this->em->getRepository(\Sellastica\Project\Entity\Project::class)
+			->findCountBy($filter);
 	}
 
 	/**

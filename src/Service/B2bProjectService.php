@@ -50,6 +50,17 @@ class B2bProjectService
 	}
 
 	/**
+	 * @param int $b2bPartnerId
+	 * @return int
+	 */
+	public function findPartnerProjectsCount(int $b2bPartnerId): int
+	{
+		return $this->projectService->findCountBy(
+			['b2bPartnerId' => $b2bPartnerId]
+		);
+	}
+
+	/**
 	 * @param int $projectId
 	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
 	 */

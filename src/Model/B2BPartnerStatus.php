@@ -36,6 +36,22 @@ class B2BPartnerStatus
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isConfirmed(): bool
+	{
+		return $this->value === self::CONFIRMED;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isRejected(): bool
+	{
+		return $this->value === self::REJECTED;
+	}
+
+	/**
 	 * @param string $status
 	 * @return B2BPartnerStatus
 	 */
