@@ -5,12 +5,14 @@ class Platform
 {
 	const SHOPTET = 'shoptet',
 		UPGATES = 'upgates',
+		HEUREKA = 'heureka',
 		OTHER = 'other';
 
 	/** @var array */
 	public static $titles = [
 		self::SHOPTET => 'Shoptet',
 		self::UPGATES => 'Upgates',
+		self::HEUREKA => 'Heuréka',
 		self::OTHER => 'system.project.platform.other',
 	];
 

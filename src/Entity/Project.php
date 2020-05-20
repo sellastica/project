@@ -56,9 +56,9 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	private $backend = true;
 
 	/** @var bool @optional */
-	private $b2b = false;
-	/** @var bool @optional */
 	private $b2c = true;
+	/** @var bool @optional */
+	private $internal = false;
 
 	/** @var Email @required */
 	private $email;
@@ -68,6 +68,10 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	private $invoiceEmailCopy;
 	/** @var string|null @optional */
 	private $phone;
+	/** @var string|null @optional */
+	private $invoicePhone;
+	/** @var bool @optional */
+	private $sendSms = true;
 	/** @var \Sellastica\Identity\Model\BillingAddress|null @optional */
 	private $billingAddress;
 	/** @var string|null @optional */
@@ -79,8 +83,8 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	private $urls;
 	/** @var bool @optional */
 	private $vatPayer = true;
-	/** @var bool @optional */
-	private $active = true;
+	/** @var \DateTime|null @optional */
+	private $activeTill = null;
 	/** @var bool @optional */
 	private $freeOfCharge = false;
 	/** @var \DateTime|null @optional */
@@ -103,6 +107,14 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	private $betaAdmin = true;
 	/** @var bool @optional */
 	private $wizard = false;
+	/** @var string|null @optional */
+	private $paymentInstrument;
+	/** @var int|null @optional */
+	private $recurringPaymentId;
+	/** @var \DateTime|null @optional */
+	private $recurringPaymentConfirmed;
+	/** @var \DateTime|null @optional */
+	private $recurringPaymentSuspended;
 
 
 	/**
@@ -233,9 +245,17 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	}
 
 	/**
+	 * @return string
+	 */
+	public function resolveInvoiceEmail(): string
+	{
+		return $this->getInvoiceEmail() ?? $this->getEmail();
+	}
+
+	/**
 	 * @return null|string
 	 */
-	public function getPhone()
+	public function getPhone(): ?string
 	{
 		return $this->phone;
 	}
@@ -243,9 +263,41 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	/**
 	 * @param null|string $phone
 	 */
-	public function setPhone(string $phone = null)
+	public function setPhone(?string $phone)
 	{
 		$this->phone = $phone;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getInvoicePhone(): ?string
+	{
+		return $this->invoicePhone;
+	}
+
+	/**
+	 * @param string|null $invoicePhone
+	 */
+	public function setInvoicePhone(?string $invoicePhone): void
+	{
+		$this->invoicePhone = $invoicePhone;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function sendSms(): bool
+	{
+		return $this->sendSms;
+	}
+
+	/**
+	 * @param bool $sendSms
+	 */
+	public function setSendSms(bool $sendSms): void
+	{
+		$this->sendSms = $sendSms;
 	}
 
 	/**
@@ -484,22 +536,6 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	/**
 	 * @return bool
 	 */
-	public function isB2b(): bool
-	{
-		return $this->b2b;
-	}
-
-	/**
-	 * @param bool $b2b
-	 */
-	public function setB2b(bool $b2b): void
-	{
-		$this->b2b = $b2b;
-	}
-
-	/**
-	 * @return bool
-	 */
 	public function isB2c(): bool
 	{
 		return $this->b2c;
@@ -511,6 +547,22 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	public function setB2c(bool $b2c): void
 	{
 		$this->b2c = $b2c;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isInternal(): bool
+	{
+		return $this->internal;
+	}
+
+	/**
+	 * @param bool $internal
+	 */
+	public function setInternal(bool $internal): void
+	{
+		$this->internal = $internal;
 	}
 
 	/**
@@ -542,15 +594,48 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	 */
 	public function isActive(): bool
 	{
-		return $this->active;
+		return !isset($this->activeTill)
+			|| $this->activeTill >= new \DateTime('today');
 	}
 
 	/**
-	 * @param bool $active
+	 * @return \DateTime|null
 	 */
-	public function setActive(bool $active): void
+	public function getActiveTill(): ?\DateTime
 	{
-		$this->active = $active;
+		return $this->activeTill;
+	}
+
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getInactiveFrom(): ?\DateTime
+	{
+		if ($this->getActiveTill()) {
+			$inactiveFrom = clone $this->getActiveTill();
+			$inactiveFrom->modify('+1 day');
+			return $inactiveFrom;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * @param \DateTime|null $activeTill
+	 */
+	public function setActiveTill(?\DateTime $activeTill): void
+	{
+		$this->activeTill = $activeTill;
+	}
+
+	public function activate(): void
+	{
+		$this->activeTill = null;
+	}
+
+	public function deactivate(): void
+	{
+		$this->activeTill = new \DateTime();
 	}
 
 	/**
@@ -770,6 +855,86 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 	}
 
 	/**
+	 * @return string|null
+	 */
+	public function getPaymentInstrument(): ?string
+	{
+		return $this->paymentInstrument;
+	}
+
+	/**
+	 * @param string|null $paymentInstrument
+	 */
+	public function setPaymentInstrument(?string $paymentInstrument): void
+	{
+		$this->paymentInstrument = $paymentInstrument;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getRecurringPaymentId(): ?int
+	{
+		return $this->recurringPaymentId;
+	}
+
+	/**
+	 * @param int|null $recurringPaymentId
+	 */
+	public function setRecurringPaymentId(?int $recurringPaymentId): void
+	{
+		$this->recurringPaymentId = $recurringPaymentId;
+	}
+
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getRecurringPaymentConfirmed(): ?\DateTime
+	{
+		return $this->recurringPaymentConfirmed;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isRecurringPaymentConfirmed(): bool
+	{
+		return (bool)$this->recurringPaymentConfirmed;
+	}
+
+	/**
+	 * @param \DateTime|null $recurringPaymentConfirmed
+	 */
+	public function setRecurringPaymentConfirmed(?\DateTime $recurringPaymentConfirmed): void
+	{
+		$this->recurringPaymentConfirmed = $recurringPaymentConfirmed;
+	}
+
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getRecurringPaymentSuspended(): ?\DateTime
+	{
+		return $this->recurringPaymentSuspended;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isRecurringPaymentSuspended(): bool
+	{
+		return (bool)$this->recurringPaymentSuspended;
+	}
+
+	/**
+	 * @param \DateTime|null $recurringPaymentSuspended
+	 */
+	public function setRecurringPaymentSuspended(?\DateTime $recurringPaymentSuspended): void
+	{
+		$this->recurringPaymentSuspended = $recurringPaymentSuspended;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function toArray(): array
@@ -789,10 +954,10 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 				'note' => $this->note,
 				'themeId' => $this->themeId,
 				'backend' => $this->backend,
-				'b2b' => $this->b2b,
 				'b2c' => $this->b2c,
+				'internal' => $this->internal,
 				'vatPayer' => $this->vatPayer,
-				'active' => $this->active,
+				'activeTill' => $this->activeTill,
 				'freeOfCharge' => $this->freeOfCharge,
 				'suspended' => $this->suspended,
 				'b2bPartnerId' => $this->b2bPartnerId,
@@ -807,10 +972,16 @@ class Project extends AbstractEntity implements IEntity, \Sellastica\Entity\Enti
 				'invoiceEmail' => $this->getInvoiceEmail(),
 				'invoiceEmailCopy' => $this->getInvoiceEmailCopy(),
 				'phone' => $this->phone,
+				'invoicePhone' => $this->invoicePhone,
+				'sendSms' => $this->sendSms,
 				'externalId' => $this->externalId,
 				'percentDiscount' => $this->percentDiscount,
 				'accountingPeriod' => $this->accountingPeriod->getPeriod(),
 				'tariffLevel' => $this->tariffLevel,
+				'paymentInstrument' => $this->paymentInstrument,
+				'recurringPaymentId' => $this->recurringPaymentId,
+				'recurringPaymentConfirmed' => $this->recurringPaymentConfirmed,
+				'recurringPaymentSuspended' => $this->recurringPaymentSuspended,
 			],
 			//billing address
 			$this->billingAddress ? $this->billingAddress->toArray() : [

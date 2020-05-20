@@ -144,7 +144,10 @@ class ProjectService
 		\Sellastica\Entity\Configuration $configuration = null
 	): \Sellastica\Project\Entity\ProjectCollection
 	{
-		return $this->findBy(['active' => true], $configuration);
+		return $this->findBy(
+			['activeTill IS NULL OR activeTill >= CURDATE()'],
+			$configuration
+		);
 	}
 
 	/**
@@ -162,6 +165,7 @@ class ProjectService
 
 	/**
 	 * @param array $filter
+	 * @return int
 	 */
 	public function findCountBy(array $filter): int
 	{

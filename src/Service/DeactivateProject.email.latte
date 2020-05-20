@@ -1,0 +1,16 @@
+{layout $layout}
+
+{block content}
+	<p>
+		Hezký den,<br>
+		účet pro e-shop <strong>{$project->getShortTitle()}</strong> byl deaktivován.
+		Data v účtu zůstanou uložena po dobu <strong>365 dní</strong>. Pokud během této doby účet znovu aktivujete, veškerá data budou obnovena.
+		Po uplynutí 365 dní budou data automaticky smazána bez možnosti obnovy.
+	</p>
+	<p>
+		Pokud chcete účet znovu aktivovat, stačí se <a href="https://klient.napojse.cz/admin">přihlásit</a> a kliknout na tlačítko Znovu aktivovat.
+	</p>
+
+    {* signature *}
+    {include $signature}
+{/block}

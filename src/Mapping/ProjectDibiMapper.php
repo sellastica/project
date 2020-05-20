@@ -99,6 +99,20 @@ class ProjectDibiMapper extends DibiMapper
 				$resource->where('(company IS NULL AND firstName IS NULL AND lastName IS NULL)');
 			}
 
+			//pay on demand allowed
+			if ($rules['recurring_payment']) {
+				$resource->where('recurringPaymentConfirmed IS NOT NULL');
+			}
+
+			//active
+			if ($rules['active']) {
+				if ($rules['active']->getValue()) {
+					$resource->where('(activeTill IS NULL OR activeTill >= CURDATE())');
+				} else {
+					$resource->where('activeTill < CURDATE()');
+				}
+			}
+
 			//suspended
 			if ($rules['suspended']) {
 				if ($rules['suspended']->getValue()) {

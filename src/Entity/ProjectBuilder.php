@@ -41,23 +41,27 @@ class ProjectBuilder implements IBuilder
 	/** @var bool */
 	private $backend = true;
 	/** @var bool */
-	private $b2b = false;
-	/** @var bool */
 	private $b2c = true;
+	/** @var bool */
+	private $internal = false;
 	/** @var Email|null */
 	private $invoiceEmail;
 	/** @var Email|null */
 	private $invoiceEmailCopy;
 	/** @var string|null */
 	private $phone;
+	/** @var string|null */
+	private $invoicePhone;
+	/** @var bool */
+	private $sendSms = true;
 	/** @var \Sellastica\Identity\Model\BillingAddress|null */
 	private $billingAddress;
 	/** @var string|null */
 	private $note;
 	/** @var bool */
 	private $vatPayer = true;
-	/** @var bool */
-	private $active = true;
+	/** @var \DateTime|null */
+	private $activeTill;
 	/** @var bool */
 	private $freeOfCharge = false;
 	/** @var \DateTime|null */
@@ -78,6 +82,14 @@ class ProjectBuilder implements IBuilder
 	private $betaAdmin = true;
 	/** @var bool */
 	private $wizard = false;
+	/** @var string|null */
+	private $paymentInstrument;
+	/** @var int|null */
+	private $recurringPaymentId;
+	/** @var \DateTime|null */
+	private $recurringPaymentConfirmed;
+	/** @var \DateTime|null */
+	private $recurringPaymentSuspended;
 
 	/**
 	 * @param string $title
@@ -292,24 +304,6 @@ class ProjectBuilder implements IBuilder
 	/**
 	 * @return bool
 	 */
-	public function getB2b(): bool
-	{
-		return $this->b2b;
-	}
-
-	/**
-	 * @param bool $b2b
-	 * @return $this
-	 */
-	public function b2b(bool $b2b)
-	{
-		$this->b2b = $b2b;
-		return $this;
-	}
-
-	/**
-	 * @return bool
-	 */
 	public function getB2c(): bool
 	{
 		return $this->b2c;
@@ -322,6 +316,24 @@ class ProjectBuilder implements IBuilder
 	public function b2c(bool $b2c = true)
 	{
 		$this->b2c = $b2c;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getInternal(): bool
+	{
+		return $this->internal;
+	}
+
+	/**
+	 * @param bool $internal
+	 * @return $this
+	 */
+	public function internal(bool $internal)
+	{
+		$this->internal = $internal;
 		return $this;
 	}
 
@@ -380,6 +392,42 @@ class ProjectBuilder implements IBuilder
 	}
 
 	/**
+	 * @return string|null
+	 */
+	public function getInvoicePhone()
+	{
+		return $this->invoicePhone;
+	}
+
+	/**
+	 * @param string|null $invoicePhone
+	 * @return $this
+	 */
+	public function invoicePhone(string $invoicePhone = null)
+	{
+		$this->invoicePhone = $invoicePhone;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getSendSms(): bool
+	{
+		return $this->sendSms;
+	}
+
+	/**
+	 * @param bool $sendSms
+	 * @return $this
+	 */
+	public function sendSms(bool $sendSms = true)
+	{
+		$this->sendSms = $sendSms;
+		return $this;
+	}
+
+	/**
 	 * @return \Sellastica\Identity\Model\BillingAddress|null
 	 */
 	public function getBillingAddress()
@@ -434,20 +482,20 @@ class ProjectBuilder implements IBuilder
 	}
 
 	/**
-	 * @return bool
+	 * @return \DateTime|null
 	 */
-	public function getActive(): bool
+	public function getActiveTill()
 	{
-		return $this->active;
+		return $this->activeTill;
 	}
 
 	/**
-	 * @param bool $active
+	 * @param \DateTime|null $activeTill
 	 * @return $this
 	 */
-	public function active(bool $active = true)
+	public function activeTill(\DateTime $activeTill = null)
 	{
-		$this->active = $active;
+		$this->activeTill = $activeTill;
 		return $this;
 	}
 
@@ -628,6 +676,78 @@ class ProjectBuilder implements IBuilder
 	public function wizard(bool $wizard)
 	{
 		$this->wizard = $wizard;
+		return $this;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getPaymentInstrument()
+	{
+		return $this->paymentInstrument;
+	}
+
+	/**
+	 * @param string|null $paymentInstrument
+	 * @return $this
+	 */
+	public function paymentInstrument(string $paymentInstrument = null)
+	{
+		$this->paymentInstrument = $paymentInstrument;
+		return $this;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getRecurringPaymentId()
+	{
+		return $this->recurringPaymentId;
+	}
+
+	/**
+	 * @param int|null $recurringPaymentId
+	 * @return $this
+	 */
+	public function recurringPaymentId(int $recurringPaymentId = null)
+	{
+		$this->recurringPaymentId = $recurringPaymentId;
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getRecurringPaymentConfirmed()
+	{
+		return $this->recurringPaymentConfirmed;
+	}
+
+	/**
+	 * @param \DateTime|null $recurringPaymentConfirmed
+	 * @return $this
+	 */
+	public function recurringPaymentConfirmed(\DateTime $recurringPaymentConfirmed = null)
+	{
+		$this->recurringPaymentConfirmed = $recurringPaymentConfirmed;
+		return $this;
+	}
+
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getRecurringPaymentSuspended()
+	{
+		return $this->recurringPaymentSuspended;
+	}
+
+	/**
+	 * @param \DateTime|null $recurringPaymentSuspended
+	 * @return $this
+	 */
+	public function recurringPaymentSuspended(\DateTime $recurringPaymentSuspended = null)
+	{
+		$this->recurringPaymentSuspended = $recurringPaymentSuspended;
 		return $this;
 	}
 

@@ -32,7 +32,7 @@ class B2bProjectService
 	{
 		return $this->projectService->findBy([
 			'b2b' => 1,
-			'active' => 1,
+			'activeTill IS NULL OR activeTill >= CURDATE()',
 			'suspended IS NULL',
 		]);
 	}
@@ -62,9 +62,13 @@ class B2bProjectService
 
 	/**
 	 * @param int $projectId
+	 * @param \DateTime $from
 	 * @return \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection|\Sellastica\Crm\Entity\Invoice\Entity\Invoice[]
 	 */
-	public function findCommissionableInvoices(int $projectId): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
+	public function findCommissionableInvoices(
+		int $projectId,
+		\DateTime $from
+	): \Sellastica\Crm\Entity\Invoice\Entity\InvoiceCollection
 	{
 		return $this->invoiceService->findBy(
 			[
@@ -73,6 +77,7 @@ class B2bProjectService
 				'cancelled' => 0, //some cancelled invoices can be refunded
 				'paidAmount > 0',
 				'paidAmount >= priceToPay',
+				'created > ' . $from->format('Y-m-d')
 			],
 			\Sellastica\Entity\Configuration::sortBy('created')
 		);
